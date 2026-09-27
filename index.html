@@ -122,4 +122,332 @@
       font-size: 12px;
       padding: 6px 10px;
       border-radius: 999px;
-      background
+      background: #f0f0f3;
+      color: #555;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .card {
+      border-radius: 12px;
+      border: 1px solid #eee;
+      padding: 12px 12px 14px;
+      background: #fafafa;
+    }
+
+    .card h3 {
+      font-size: 15px;
+      margin: 0 0 6px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #555;
+      margin: 0;
+    }
+
+    .highlight {
+      background: var(--accent-soft);
+      border-color: #f3c1dd;
+    }
+
+    .small {
+      font-size: 12px;
+      color: #777;
+      margin-top: 8px;
+    }
+
+    .faq-item {
+      border-top: 1px solid #eee;
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+
+    .faq-q {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .faq-a {
+      font-size: 13px;
+      color: #555;
+    }
+
+    .cta-final {
+      text-align: center;
+    }
+
+    .cta-final h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .cta-final p {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 16px;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 12px;
+      color: #777;
+    }
+
+    footer a {
+      color: #777;
+      text-decoration: underline;
+      text-decoration-thickness: 0.08em;
+    }
+
+    @media (max-width: 720px) {
+      .hero-title {
+        font-size: 22px;
+      }
+      section {
+        padding: 20px 16px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header>
+      <div class="logo">もしもノート｜終活・人生整理</div>
+      <h1 class="hero-title">
+        あなたが亡くなった後、<br>
+        誰が、あなたの手続きをしますか？
+      </h1>
+      <p class="hero-sub">
+        本人が手続きできなくなる「その前」に。<br>
+        家族や大切な人が困らないように、<br>
+        情報と気持ちを、ひとつのノートにまとめておく。
+      </p>
+      <p class="hero-service">
+        終活や人生整理のために、<br>
+        「もしもの後」に発生する手続きを、<br>
+        生前に静かに考え、整理しておくためのWebサービスです。
+      </p>
+      <div class="cta-group">
+        <button class="btn-primary">もしもノートをはじめる</button>
+        <button class="btn-secondary">今のうちに整理する</button>
+      </div>
+      <p class="hero-note">
+        ※ボタンのリンク先は、今後の仕様に合わせて設定してください。
+      </p>
+    </header>
+
+    <section id="problem">
+      <h2>亡くなった後には、さまざまな手続きが発生します。</h2>
+      <p>
+        人が亡くなった後には、想像以上に多くの「手続き」が、静かに、しかし確実に発生します。
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>葬儀・火葬に関する手配</h3>
+          <p>どのような形で見送るのか、誰が手配するのか。</p>
+        </div>
+        <div class="card">
+          <h3>医療費などの精算</h3>
+          <p>入院費・治療費などの支払いと精算。</p>
+        </div>
+        <div class="card">
+          <h3>住居の解約</h3>
+          <p>賃貸契約や持ち家に関する手続き。</p>
+        </div>
+        <div class="card">
+          <h3>電気・ガス・水道などの契約整理</h3>
+          <p>ライフラインの契約をどう整理するか。</p>
+        </div>
+        <div class="card">
+          <h3>携帯電話・インターネットの解約</h3>
+          <p>通信契約やプロバイダの整理。</p>
+        </div>
+        <div class="card">
+          <h3>サブスクリプションの整理</h3>
+          <p>動画配信・音楽・クラウドサービスなどの契約。</p>
+        </div>
+        <div class="card">
+          <h3>各種行政手続き</h3>
+          <p>戸籍・年金・保険などの手続き。</p>
+        </div>
+        <div class="card">
+          <h3>財産や契約に関する手続き</h3>
+          <p>不動産・金融資産・保険などの整理。</p>
+        </div>
+        <div class="card">
+          <h3>遺品整理</h3>
+          <p>残された物をどう扱うか、誰が判断するのか。</p>
+        </div>
+        <div class="card">
+          <h3>その他、生前に指定しておきたい事項</h3>
+          <p>希望やお願いごと、伝えておきたいこと。</p>
+        </div>
+      </div>
+      <p class="small">
+        これらの手続きは、亡くなった本人ではなく、家族や周囲の人が担うことになります。<br>
+        では――「何を、どこまで、誰が把握しているのでしょうか？」
+      </p>
+    </section>
+
+    <section id="insight">
+      <h2>本人が亡くなった後では、本人自身が手続きできません。</h2>
+      <p>
+        本人が亡くなった後、本人自身が手続きをすることはできません。<br>
+        だからこそ、生前に考えておく必要があります。
+      </p>
+      <p>
+        ・誰に、何をお願いするのか<br>
+        ・どんな情報を残しておくのか<br>
+        ・何を整理しておく必要があるのか
+      </p>
+      <p>
+        「家族なら分かっているだろう」――そう思っていても、
+      </p>
+      <p>
+        ・そもそも、何を契約しているのか<br>
+        ・どこに連絡すればいいのか<br>
+        ・誰に何をお願いすればいいのか
+      </p>
+      <p>
+        が分からないまま、結果的に大切な人を困らせてしまう可能性があります。
+      </p>
+    </section>
+
+    <section id="solution">
+      <h2>そこで「もしもノート」。</h2>
+      <p>
+        もしもノート｜終活・人生整理 は、<br>
+        「もしもの後」に備えて、あなたの情報と希望を、ひとつの場所にまとめておくためのWebサービスです。
+      </p>
+      <p>
+        家族のために。自分自身のために。<br>
+        そして、未来の「もしも」のために。
+      </p>
+      <div class="chips">
+        <div class="chip">終活</div>
+        <div class="chip">人生整理</div>
+        <div class="chip">情報整理</div>
+        <div class="chip">家族のために</div>
+      </div>
+    </section>
+
+    <section id="features-info">
+      <h2>まずは「情報」を整理する。</h2>
+      <p>
+        もしもノートでは、もしものときに必要になるかもしれない情報を、落ち着いて整理しておくことができます。
+      </p>
+      <div class="grid">
+        <div class="card highlight">
+          <h3>基本情報</h3>
+          <p>名前・生年月日・住所など、手続きに必要となる基本的な情報をまとめておく。</p>
+        </div>
+        <div class="card highlight">
+          <h3>プロフィール</h3>
+          <p>簡単な経歴や、伝えておきたい自己紹介を整理しておく。</p>
+        </div>
+        <div class="card highlight">
+          <h3>連絡先</h3>
+          <p>家族・親族・友人・かかりつけ医など、「もしものときに連絡してほしい人」をまとめておく。</p>
+        </div>
+        <div class="card highlight">
+          <h3>葬儀の希望</h3>
+          <p>どのような形で見送ってほしいか、自分の希望を事前に整理しておく。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features-assets">
+      <h2>資産・契約・デジタル資産を整理する。</h2>
+      <p>
+        「何を持っていて、どこにあるのか」。<br>
+        それを整理しておくだけでも、もしものときの負担は大きく変わります。
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>不動産</h3>
+          <p>所有している物件や、関係する情報を整理しておくためのメモ。</p>
+        </div>
+        <div class="card">
+          <h3>金融口座</h3>
+          <p>銀行口座・証券口座などの存在を把握しやすくするための情報。</p>
+        </div>
+        <div class="card">
+          <h3>保険</h3>
+          <p>生命保険・医療保険など、加入している保険の情報をまとめておく。</p>
+        </div>
+        <div class="card">
+          <h3>契約</h3>
+          <p>電気・ガス・水道・携帯電話・インターネット・各種サブスクリプションなど。</p>
+        </div>
+        <div class="card">
+          <h3>デジタル資産</h3>
+          <p>オンラインサービス・クラウドストレージ・SNSなどの存在を整理しておく。</p>
+        </div>
+        <div class="card">
+          <h3>その他所有物</h3>
+          <p>大切なコレクションや、特に伝えておきたい所有物。</p>
+        </div>
+      </div>
+      <p class="small">
+        これらは、「亡くなった後に必ずすべての手続きが必要」というものではありません。<br>
+        整理しておくことで、必要なときに確認しやすくなる情報です。
+      </p>
+    </section>
+
+    <section id="features-family">
+      <h2>誰に託すのかを考えるために、家族を整理する。</h2>
+      <p>
+        「誰に、何をお願いするのか」を考えるためには、まず、自分を取り巻く家族のつながりを整理することが大切です。
+      </p>
+      <div class="card">
+        <h3>もしも家系図</h3>
+        <p>
+          家族・親族のつながりを、視覚的に整理するための機能です。<br>
+          誰に何を託すのかを考える際の「前提」として、家族関係を見える化します。
+        </p>
+      </div>
+    </section>
+
+    <section id="features-life">
+      <h2>自分の人生を振り返りながら、残しておきたいことを整理する。</h2>
+      <p>
+        自分の人生を振り返ることは、「これから何を残しておきたいか」を考えるきっかけになります。
+      </p>
+      <div class="card">
+        <h3>人生年表</h3>
+        <p>
+          生まれてから今までの出来事を、年表として整理するための機能です。<br>
+          大切な転機や、家族との思い出を振り返りながら、「もしものときに伝えたいこと」を考えることができます。
+        </p>
+      </div>
+    </section>
+
+    <section id="features-others">
+      <h2>「もしものとき」に備えて、希望を整理しておく。</h2>
+      <p>
+        手続きだけでなく、「自分がどうしてほしいのか」を事前に考えておくことも、大切な準備のひとつです。
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>ペット</h3>
+          <p>ペットの情報や、もしものときにどうしてほしいかを整理しておく。</p>
+        </div>
+        <div class="card">
+          <h3>希望メモ</h3>
+          <p>手続き以外に、家族に伝えておきたいことを自由に書き留めておく。</p>
+        </div>
+        <div class="card">
+          <h3>もしものとき</
