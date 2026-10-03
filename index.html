@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+-<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -804,9 +804,9 @@ footer{
         誰が、あなたの<br>
         <em>手続きをしますか？</em>
       </h1>
-
-      <p class="hero-lead">
-        「もしもノート」は、もしものときに必要になる情報や、
+<button onclick="document.querySelector('video[src*=\'moshimo-note.mp4\']').scrollIntoView({behavior:'smooth', block:'center'});" style="display:inline-block; padding:12px 24px; margin:15px 0; background:#333; color:#fff; border:none; border-radius:30px; font-size:16px; cursor:pointer;">▶ 動画を見る</button>
+<p class="hero-lead">
+              「もしもノート」は、もしものときに必要になる情報や、
         あなたの希望を整理して残しておくための人生整理アプリです。
       </p>
 
@@ -1432,8 +1432,18 @@ footer{
     </div>
 
   </div>
-
 </footer>
+       </div>
+</div>
+
+<section style="width: 100%; margin: 60px 0; padding: 0;">
+  <video
+    src="moshimo-note.mp4"
+    controls
+    playsinline
+    style="width: 100%; height: auto; border-radius: 18px; display: block;">
+  </video>
+</section>
 
 </body>
 </html>
