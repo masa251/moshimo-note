@@ -1,453 +1,1439 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>もしもノート｜終活・人生整理</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    :root {
-      --bg: #f7f7f9;
-      --fg: #222222;
-      --accent: #c03a7a;
-      --accent-soft: #fbe7f1;
-      --border: #dddddd;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="もしもノート｜終活・人生整理。大切な情報や希望を整理して、もしものときに備えるためのアプリです。">
 
-    * {
-      box-sizing: border-box;
-    }
+<title>もしもノート｜自分の人生を、自分の手で整理する。</title>
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-      line-height: 1.7;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    .page {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px 16px 64px;
-    }
+html{
+  scroll-behavior:smooth;
+}
 
-    header {
-      padding: 40px 0 32px;
-    }
+body{
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Noto Sans JP",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    sans-serif;
+  color:#252326;
+  background:#faf9f7;
+  line-height:1.9;
+}
 
-    .logo {
-      font-size: 14px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #666;
-      margin-bottom: 16px;
-    }
+a{
+  color:inherit;
+  text-decoration:none;
+}
 
-    .hero-title {
-      font-size: 28px;
-      line-height: 1.5;
-      margin: 0 0 16px;
-    }
+.container{
+  width:min(1120px, calc(100% - 40px));
+  margin:auto;
+}
 
-    .hero-sub {
-      font-size: 15px;
-      color: #555;
-      margin-bottom: 24px;
-    }
+/* HEADER */
 
-    .hero-service {
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 24px;
-    }
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(250,249,247,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(40,35,40,.08);
+}
 
-    .cta-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
+.header-inner{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-    .btn-primary {
-      padding: 10px 20px;
-      border-radius: 999px;
-      border: none;
-      background: var(--accent);
-      color: #fff;
-      font-size: 14px;
-      cursor: pointer;
-    }
+.logo{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+  letter-spacing:.08em;
+}
 
-    .btn-secondary {
-      padding: 10px 20px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #fff;
-      color: #444;
-      font-size: 14px;
-      cursor: pointer;
-    }
+.logo span{
+  display:block;
+  font-family:inherit;
+  font-size:10px;
+  letter-spacing:.18em;
+  color:#8b8589;
+  margin-top:-5px;
+}
 
-    .hero-note {
-      font-size: 12px;
-      color: #888;
-    }
+nav{
+  display:flex;
+  align-items:center;
+  gap:28px;
+  font-size:13px;
+}
 
-    section {
-      margin: 40px 0;
-      padding: 24px 20px;
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid #eee;
-    }
+nav a{
+  color:#555055;
+}
 
-    section h2 {
-      font-size: 20px;
-      margin-top: 0;
-      margin-bottom: 12px;
-    }
+.nav-cta{
+  padding:10px 18px;
+  border:1px solid #252326;
+  border-radius:999px;
+  color:#252326;
+  transition:.25s;
+}
 
-    section p {
-      margin: 8px 0;
-    }
+.nav-cta:hover{
+  background:#252326;
+  color:white;
+}
 
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
+/* HERO */
 
-    .chip {
-      font-size: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #f0f0f3;
-      color: #555;
-    }
+.hero{
+  min-height:calc(100vh - 76px);
+  display:flex;
+  align-items:center;
+  padding:100px 0 110px;
+  position:relative;
+  overflow:hidden;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 16px;
-    }
+.hero::before{
+  content:"";
+  position:absolute;
+  width:560px;
+  height:560px;
+  border-radius:50%;
+  background:#eee5eb;
+  right:-220px;
+  top:80px;
+  opacity:.65;
+}
 
-    .card {
-      border-radius: 12px;
-      border: 1px solid #eee;
-      padding: 12px 12px 14px;
-      background: #fafafa;
-    }
+.hero-content{
+  position:relative;
+  z-index:1;
+  max-width:900px;
+}
 
-    .card h3 {
-      font-size: 15px;
-      margin: 0 0 6px;
-    }
+.eyebrow{
+  font-size:12px;
+  letter-spacing:.2em;
+  color:#9b3e72;
+  margin-bottom:28px;
+  font-weight:600;
+}
 
-    .card p {
-      font-size: 13px;
-      color: #555;
-      margin: 0;
-    }
+.hero h1{
+  font-family:
+    Georgia,
+    "Times New Roman",
+    "Noto Serif JP",
+    serif;
+  font-weight:400;
+  font-size:clamp(42px,6vw,78px);
+  line-height:1.28;
+  letter-spacing:.02em;
+  max-width:850px;
+}
 
-    .highlight {
-      background: var(--accent-soft);
-      border-color: #f3c1dd;
-    }
+.hero h1 em{
+  font-style:normal;
+  color:#9b3e72;
+}
 
-    .small {
-      font-size: 12px;
-      color: #777;
-      margin-top: 8px;
-    }
+.hero-lead{
+  margin-top:34px;
+  max-width:650px;
+  font-size:17px;
+  color:#666065;
+}
 
-    .faq-item {
-      border-top: 1px solid #eee;
-      padding-top: 12px;
-      margin-top: 12px;
-    }
+.hero-actions{
+  display:flex;
+  gap:14px;
+  margin-top:42px;
+  flex-wrap:wrap;
+}
 
-    .faq-q {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:54px;
+  padding:0 27px;
+  border-radius:999px;
+  font-size:14px;
+  transition:.25s;
+}
 
-    .faq-a {
-      font-size: 13px;
-      color: #555;
-    }
+.btn-primary{
+  background:#252326;
+  color:white;
+}
 
-    .cta-final {
-      text-align: center;
-    }
+.btn-primary:hover{
+  transform:translateY(-2px);
+  background:#9b3e72;
+}
 
-    .cta-final h2 {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
+.btn-outline{
+  border:1px solid #c9c3c7;
+  color:#4e494d;
+}
 
-    .cta-final p {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 16px;
-    }
+.btn-outline:hover{
+  border-color:#252326;
+}
 
-    footer {
-      margin-top: 40px;
-      padding-top: 24px;
-      border-top: 1px solid #e0e0e0;
-      font-size: 12px;
-      color: #777;  
-    } 
+.hero-note{
+  margin-top:20px;
+  font-size:12px;
+  color:#999397;
+}
 
-    footer a {
-      color: #777;
-      text-decoration: underline;
-      text-decoration-thickness: 0.08em;
-    }
+/* SECTION */
 
-    @media (max-width: 720px) {
-      .hero-title {
-        font-size: 22px;
-      }
-      section {
-        padding: 20px 16px;
-      }
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+section{
+  padding:120px 0;
+}
+
+.section-label{
+  font-size:11px;
+  letter-spacing:.2em;
+  color:#9b3e72;
+  font-weight:600;
+  margin-bottom:18px;
+}
+
+.section-title{
+  font-family:
+    Georgia,
+    "Times New Roman",
+    "Noto Serif JP",
+    serif;
+  font-size:clamp(32px,4vw,52px);
+  line-height:1.4;
+  font-weight:400;
+  letter-spacing:.02em;
+}
+
+.section-lead{
+  margin-top:24px;
+  color:#6d686c;
+  max-width:700px;
+}
+
+/* INTRO */
+
+.intro{
+  background:white;
+}
+
+.intro-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+
+.intro-quote{
+  font-family:Georgia,"Times New Roman","Noto Serif JP",serif;
+  font-size:clamp(27px,3vw,42px);
+  line-height:1.6;
+}
+
+.intro-text{
+  color:#686267;
+}
+
+/* PROBLEM */
+
+.problem{
+  background:#f4f0f2;
+}
+
+.problem-grid{
+  margin-top:60px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1px;
+  background:#ddd7db;
+  border:1px solid #ddd7db;
+}
+
+.problem-item{
+  background:#f4f0f2;
+  padding:34px;
+}
+
+.problem-number{
+  font-family:Georgia,serif;
+  font-size:13px;
+  color:#9b3e72;
+}
+
+.problem-item h3{
+  margin-top:12px;
+  font-size:18px;
+  font-weight:500;
+}
+
+.problem-item p{
+  margin-top:8px;
+  font-size:14px;
+  color:#777176;
+}
+
+/* APP */
+
+.app{
+  background:#252326;
+  color:white;
+}
+
+.app .section-label{
+  color:#d889b1;
+}
+
+.app .section-lead{
+  color:#c6c0c5;
+}
+
+.app-layout{
+  margin-top:65px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+
+.app-list{
+  display:grid;
+  gap:0;
+}
+
+.app-feature{
+  padding:25px 0;
+  border-bottom:1px solid rgba(255,255,255,.14);
+}
+
+.app-feature:first-child{
+  border-top:1px solid rgba(255,255,255,.14);
+}
+
+.app-feature h3{
+  font-family:Georgia,"Noto Serif JP",serif;
+  font-size:23px;
+  font-weight:400;
+}
+
+.app-feature p{
+  margin-top:7px;
+  font-size:13px;
+  color:#bbb5ba;
+}
+
+.app-visual{
+  min-height:500px;
+  border-radius:28px;
+  background:
+    linear-gradient(145deg,#eee7eb,#d9cdd4);
+  padding:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.phone{
+  width:270px;
+  min-height:470px;
+  border-radius:34px;
+  background:#fff;
+  color:#252326;
+  box-shadow:0 30px 70px rgba(0,0,0,.25);
+  padding:28px 22px;
+}
+
+.phone-top{
+  font-family:Georgia,serif;
+  font-size:19px;
+}
+
+.phone-sub{
+  font-size:10px;
+  color:#999;
+  margin-top:3px;
+}
+
+.phone-card{
+  margin-top:25px;
+  padding:18px;
+  border-radius:17px;
+  background:#f6f3f4;
+}
+
+.phone-card small{
+  color:#9b3e72;
+  font-size:9px;
+}
+
+.phone-card strong{
+  display:block;
+  margin-top:5px;
+  font-family:Georgia,"Noto Serif JP",serif;
+  font-size:19px;
+  font-weight:400;
+}
+
+/* CTA */
+
+.app-cta{
+  margin-top:55px;
+  text-align:center;
+}
+
+.app-cta p{
+  color:#bbb5ba;
+  font-size:13px;
+  margin-bottom:18px;
+}
+
+/* FEATURES */
+
+.features{
+  background:white;
+}
+
+.feature-block{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:90px;
+  align-items:center;
+  padding:80px 0;
+  border-bottom:1px solid #e6e1e4;
+}
+
+.feature-block:last-child{
+  border-bottom:none;
+}
+
+.feature-block.reverse .feature-copy{
+  order:2;
+}
+
+.feature-block.reverse .feature-art{
+  order:1;
+}
+
+.feature-copy h3{
+  font-family:Georgia,"Noto Serif JP",serif;
+  font-size:34px;
+  font-weight:400;
+}
+
+.feature-copy p{
+  margin-top:20px;
+  color:#6f696e;
+}
+
+.feature-art{
+  min-height:350px;
+  border-radius:26px;
+  background:#f3eef1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px;
+}
+
+.art-inner{
+  width:80%;
+  padding:35px;
+  background:white;
+  border-radius:20px;
+  box-shadow:0 15px 45px rgba(60,40,50,.08);
+}
+
+.art-line{
+  height:9px;
+  background:#e8e2e6;
+  border-radius:10px;
+  margin:13px 0;
+}
+
+.art-line.short{
+  width:55%;
+}
+
+.art-line.accent{
+  width:72%;
+  background:#d99ab9;
+}
+
+/* FAMILY & LIFE */
+
+.family{
+  background:#f4f0f2;
+}
+
+.family-grid{
+  margin-top:60px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
+}
+
+.family-card{
+  background:white;
+  padding:45px;
+  min-height:340px;
+  border-radius:25px;
+}
+
+.family-card h3{
+  font-family:Georgia,"Noto Serif JP",serif;
+  font-size:30px;
+  font-weight:400;
+}
+
+.family-card p{
+  margin-top:18px;
+  color:#706a6f;
+}
+
+.family-card .mini{
+  margin-top:35px;
+  font-size:11px;
+  color:#9b3e72;
+  letter-spacing:.08em;
+}
+
+/* STEPS */
+
+.steps{
+  background:white;
+}
+
+.steps-grid{
+  margin-top:60px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:35px;
+}
+
+.step{
+  padding-top:25px;
+  border-top:1px solid #cfc8cc;
+}
+
+.step-number{
+  font-family:Georgia,serif;
+  color:#9b3e72;
+  font-size:13px;
+}
+
+.step h3{
+  margin-top:15px;
+  font-family:Georgia,"Noto Serif JP",serif;
+  font-size:25px;
+  font-weight:400;
+}
+
+.step p{
+  margin-top:10px;
+  font-size:14px;
+  color:#706a6f;
+}
+
+/* FINAL CTA */
+
+.final{
+  padding:150px 0;
+  background:#eee5eb;
+  text-align:center;
+}
+
+.final h2{
+  font-family:Georgia,"Noto Serif JP",serif;
+  font-size:clamp(38px,5vw,66px);
+  font-weight:400;
+  line-height:1.45;
+}
+
+.final p{
+  margin:25px auto 35px;
+  max-width:620px;
+  color:#6d666b;
+}
+
+/* FAQ */
+
+.faq{
+  background:#faf9f7;
+}
+
+.faq-list{
+  margin-top:55px;
+  max-width:850px;
+}
+
+details{
+  border-top:1px solid #ddd7da;
+  padding:24px 0;
+}
+
+details:last-child{
+  border-bottom:1px solid #ddd7da;
+}
+
+summary{
+  cursor:pointer;
+  font-size:16px;
+  list-style:none;
+  position:relative;
+  padding-right:35px;
+}
+
+summary::-webkit-details-marker{
+  display:none;
+}
+
+summary::after{
+  content:"+";
+  position:absolute;
+  right:0;
+  font-size:20px;
+  color:#9b3e72;
+}
+
+details[open] summary::after{
+  content:"−";
+}
+
+details p{
+  padding-top:15px;
+  color:#777176;
+  font-size:14px;
+}
+
+/* FOOTER */
+
+footer{
+  background:#252326;
+  color:#aaa4a9;
+  padding:55px 0 35px;
+}
+
+.footer-top{
+  display:flex;
+  justify-content:space-between;
+  gap:40px;
+  padding-bottom:40px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.footer-logo{
+  color:white;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+}
+
+.footer-links{
+  display:flex;
+  gap:25px;
+  flex-wrap:wrap;
+  font-size:12px;
+}
+
+.footer-links a:hover{
+  color:white;
+}
+
+.footer-bottom{
+  padding-top:25px;
+  font-size:11px;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+  .container{
+    width:min(100% - 30px,1120px);
+  }
+
+  header{
+    position:relative;
+  }
+
+  .header-inner{
+    height:68px;
+  }
+
+  nav{
+    display:none;
+  }
+
+  .hero{
+    min-height:auto;
+    padding:80px 0 90px;
+  }
+
+  .hero h1{
+    font-size:43px;
+  }
+
+  .hero-lead{
+    font-size:15px;
+  }
+
+  .hero-actions{
+    display:block;
+  }
+
+  .hero-actions .btn{
+    width:100%;
+    margin-bottom:10px;
+  }
+
+  section{
+    padding:85px 0;
+  }
+
+  .intro-grid,
+  .app-layout,
+  .feature-block{
+    grid-template-columns:1fr;
+    gap:45px;
+  }
+
+  .feature-block.reverse .feature-copy,
+  .feature-block.reverse .feature-art{
+    order:initial;
+  }
+
+  .problem-grid{
+    grid-template-columns:1fr;
+  }
+
+  .problem-item{
+    padding:28px;
+  }
+
+  .app-visual{
+    min-height:430px;
+    padding:25px;
+  }
+
+  .phone{
+    width:235px;
+    min-height:410px;
+  }
+
+  .family-grid{
+    grid-template-columns:1fr;
+  }
+
+  .family-card{
+    min-height:280px;
+    padding:32px;
+  }
+
+  .steps-grid{
+    grid-template-columns:1fr;
+    gap:40px;
+  }
+
+  .final{
+    padding:105px 0;
+  }
+
+  .footer-top{
+    display:block;
+  }
+
+  .footer-links{
+    margin-top:30px;
+  }
+}
+</style>
 </head>
+
 <body>
-  <div class="page">
 
-    <header>
-      <div class="logo">もしもノート｜終活・人生整理</div>
-      <h1 class="hero-title">
+<header>
+  <div class="container header-inner">
+    <a href="#" class="logo">
+      もしもノート
+      <span>人生整理・終活アプリ</span>
+    </a>
+
+    <nav>
+      <a href="#about">もしもノートとは</a>
+      <a href="#features">できること</a>
+      <a href="#faq">FAQ</a>
+      <a href="#start" class="nav-cta">使ってみる</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+
+      <div class="eyebrow">LIFELINK / MOSHIMO NOTE</div>
+
+      <h1>
         あなたが亡くなった後、<br>
-        誰が、あなたの手続きをしますか？
+        誰が、あなたの<br>
+        <em>手続きをしますか？</em>
       </h1>
-      <p class="hero-sub">
-        本人が手続きできなくなる「その前」に。<br>
-        家族や大切な人が困らないように、<br>
-        情報と気持ちを、ひとつのノートにまとめておく。
+
+      <p class="hero-lead">
+        「もしもノート」は、もしものときに必要になる情報や、
+        あなたの希望を整理して残しておくための人生整理アプリです。
       </p>
-      <p class="hero-service">
-        終活や人生整理のために、<br>
-        「もしもの後」に発生する手続きを、<br>
-        生前に静かに考え、整理しておくためのWebサービスです。
-      </p>
-      <div class="cta-group">
-        <button class="btn-primary">もしもノートをはじめる</button>
-        <button class="btn-secondary">今のうちに整理する</button>
+
+      <div class="hero-actions">
+        <a href="#start" class="btn btn-primary">
+          もしもノートを使ってみる
+        </a>
+
+        <a href="#about" class="btn btn-outline">
+          もしもノートについて
+        </a>
       </div>
+
       <p class="hero-note">
-        ※ボタンのリンク先は、今後の仕様に合わせて設定してください。
+        ※アプリは現在開発中です。公開後、こちらからご利用いただけます。
       </p>
-    </header>
 
-    <section id="problem">
-      <h2>亡くなった後には、さまざまな手続きが発生します。</h2>
-      <p>
-        人が亡くなった後には、想像以上に多くの「手続き」が、静かに、しかし確実に発生します。
+    </div>
+  </div>
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="intro" id="about">
+  <div class="container intro-grid">
+
+    <div>
+      <div class="section-label">WHY MOSHIMO NOTE</div>
+
+      <p class="intro-quote">
+        大切なのは、<br>
+        「もしもの準備」だけではありません。<br>
+        <em>自分の人生を整理すること。</em>
       </p>
-      <div class="grid">
-        <div class="card">
-          <h3>葬儀・火葬に関する手配</h3>
-          <p>どのような形で見送るのか、誰が手配するのか。</p>
-        </div>
-        <div class="card">
-          <h3>医療費などの精算</h3>
-          <p>入院費・治療費などの支払いと精算。</p>
-        </div>
-        <div class="card">
-          <h3>住居の解約</h3>
-          <p>賃貸契約や持ち家に関する手続き。</p>
-        </div>
-        <div class="card">
-          <h3>電気・ガス・水道などの契約整理</h3>
-          <p>ライフラインの契約をどう整理するか。</p>
-        </div>
-        <div class="card">
-          <h3>携帯電話・インターネットの解約</h3>
-          <p>通信契約やプロバイダの整理。</p>
-        </div>
-        <div class="card">
-          <h3>サブスクリプションの整理</h3>
-          <p>動画配信・音楽・クラウドサービスなどの契約。</p>
-        </div>
-        <div class="card">
-          <h3>各種行政手続き</h3>
-          <p>戸籍・年金・保険などの手続き。</p>
-        </div>
-        <div class="card">
-          <h3>財産や契約に関する手続き</h3>
-          <p>不動産・金融資産・保険などの整理。</p>
-        </div>
-        <div class="card">
-          <h3>遺品整理</h3>
-          <p>残された物をどう扱うか、誰が判断するのか。</p>
-        </div>
-        <div class="card">
-          <h3>その他、生前に指定しておきたい事項</h3>
-          <p>希望やお願いごと、伝えておきたいこと。</p>
-        </div>
+    </div>
+
+    <div>
+      <p class="section-lead">
+        家族に伝えておきたいこと。
+        持っているもの、契約しているもの。
+        これまで歩いてきた人生。
+      </p>
+
+      <p class="section-lead">
+        頭の中では分かっていても、
+        いざというときに誰かへ伝えるのは簡単ではありません。
+      </p>
+
+      <p class="section-lead">
+        もしもノートなら、必要な情報を少しずつ入力しながら、
+        自分自身の人生を整理していくことができます。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- PROBLEM -->
+
+<section class="problem">
+  <div class="container">
+
+    <div class="section-label">IF SOMETHING HAPPENS</div>
+
+    <h2 class="section-title">
+      もしものとき、<br>
+      残された人がすること。
+    </h2>
+
+    <p class="section-lead">
+      そのときになって初めて、家族が探さなければならない情報はたくさんあります。
+    </p>
+
+    <div class="problem-grid">
+
+      <div class="problem-item">
+        <div class="problem-number">01</div>
+        <h3>葬儀・火葬</h3>
+        <p>どんな葬儀を希望しているのか。</p>
       </div>
-      <p class="small">
-        これらの手続きは、亡くなった本人ではなく、家族や周囲の人が担うことになります。<br>
-        では――「何を、どこまで、誰が把握しているのでしょうか？」
-      </p>
-    </section>
 
-    <section id="insight">
-      <h2>本人が亡くなった後では、本人自身が手続きできません。</h2>
-      <p>
-        本人が亡くなった後、本人自身が手続きをすることはできません。<br>
-        だからこそ、生前に考えておく必要があります。
-      </p>
-      <p>
-        ・誰に、何をお願いするのか<br>
-        ・どんな情報を残しておくのか<br>
-        ・何を整理しておく必要があるのか
-      </p>
-      <p>
-        「家族なら分かっているだろう」――そう思っていても、
-      </p>
-      <p>
-        ・そもそも、何を契約しているのか<br>
-        ・どこに連絡すればいいのか<br>
-        ・誰に何をお願いすればいいのか
-      </p>
-      <p>
-        が分からないまま、結果的に大切な人を困らせてしまう可能性があります。
-      </p>
-    </section>
-
-    <section id="solution">
-      <h2>そこで「もしもノート」。</h2>
-      <p>
-        もしもノート｜終活・人生整理 は、<br>
-        「もしもの後」に備えて、あなたの情報と希望を、ひとつの場所にまとめておくためのWebサービスです。
-      </p>
-      <p>
-        家族のために。自分自身のために。<br>
-        そして、未来の「もしも」のために。
-      </p>
-      <div class="chips">
-        <div class="chip">終活</div>
-        <div class="chip">人生整理</div>
-        <div class="chip">情報整理</div>
-        <div class="chip">家族のために</div>
+      <div class="problem-item">
+        <div class="problem-number">02</div>
+        <h3>医療費・各種精算</h3>
+        <p>必要な手続きや支払いをどうするのか。</p>
       </div>
-    </section>
 
-    <section id="features-info">
-      <h2>まずは「情報」を整理する。</h2>
-      <p>
-        もしもノートでは、もしものときに必要になるかもしれない情報を、落ち着いて整理しておくことができます。
-      </p>
-      <div class="grid">
-        <div class="card highlight">
+      <div class="problem-item">
+        <div class="problem-number">03</div>
+        <h3>住まい</h3>
+        <p>賃貸契約や住宅に関する手続き。</p>
+      </div>
+
+      <div class="problem-item">
+        <div class="problem-number">04</div>
+        <h3>ライフライン</h3>
+        <p>電気・ガス・水道などの契約。</p>
+      </div>
+
+      <div class="problem-item">
+        <div class="problem-number">05</div>
+        <h3>スマートフォン・インターネット</h3>
+        <p>通信契約やデジタルサービス。</p>
+      </div>
+
+      <div class="problem-item">
+        <div class="problem-number">06</div>
+        <h3>サブスクリプション</h3>
+        <p>毎月支払っているサービス。</p>
+      </div>
+
+      <div class="problem-item">
+        <div class="problem-number">07</div>
+        <h3>行政手続き</h3>
+        <p>必要になるさまざまな届け出。</p>
+      </div>
+
+      <div class="problem-item">
+        <div class="problem-number">08</div>
+        <h3>資産・契約</h3>
+        <p>不動産、銀行、保険、契約など。</p>
+      </div>
+
+      <div class="problem-item">
+        <div class="problem-number">09</div>
+        <h3>持ちもの</h3>
+        <p>大切なものをどうするのか。</p>
+      </div>
+
+      <div class="problem-item">
+        <div class="problem-number">10</div>
+        <h3>あなたの希望</h3>
+        <p>家族に伝えておきたいこと。</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- APP -->
+
+<section class="app" id="features">
+  <div class="container">
+
+    <div class="section-label">MOSHIMO NOTE APP</div>
+
+    <h2 class="section-title">
+      書きながら、<br>
+      自分の人生を整理する。
+    </h2>
+
+    <p class="section-lead">
+      もしもノートは、人生に関するさまざまな情報を
+      一つずつ整理していくためのアプリです。
+    </p>
+
+    <div class="app-layout">
+
+      <div class="app-list">
+
+        <div class="app-feature">
           <h3>基本情報</h3>
-          <p>名前・生年月日・住所など、手続きに必要となる基本的な情報をまとめておく。</p>
+          <p>自分自身の基本情報や、必要な連絡先を整理。</p>
         </div>
-        <div class="card highlight">
-          <h3>プロフィール</h3>
-          <p>簡単な経歴や、伝えておきたい自己紹介を整理しておく。</p>
+
+        <div class="app-feature">
+          <h3>資産・契約</h3>
+          <p>不動産、金融口座、保険、契約、デジタル資産など。</p>
         </div>
-        <div class="card highlight">
-          <h3>連絡先</h3>
-          <p>家族・親族・友人・かかりつけ医など、「もしものときに連絡してほしい人」をまとめておく。</p>
-        </div>
-        <div class="card highlight">
+
+        <div class="app-feature">
           <h3>葬儀の希望</h3>
-          <p>どのような形で見送ってほしいか、自分の希望を事前に整理しておく。</p>
+          <p>自分らしい葬儀や、伝えておきたい希望を整理。</p>
         </div>
-      </div>
-    </section>
 
-    <section id="features-assets">
-      <h2>資産・契約・デジタル資産を整理する。</h2>
-      <p>
-        「何を持っていて、どこにあるのか」。<br>
-        それを整理しておくだけでも、もしものときの負担は大きく変わります。
-      </p>
-      <div class="grid">
-        <div class="card">
-          <h3>不動産</h3>
-          <p>所有している物件や、関係する情報を整理しておくためのメモ。</p>
+        <div class="app-feature">
+          <h3>もしものとき</h3>
+          <p>家族に伝えておきたいことをまとめておく。</p>
         </div>
-        <div class="card">
-          <h3>金融口座</h3>
-          <p>銀行口座・証券口座などの存在を把握しやすくするための情報。</p>
-        </div>
-        <div class="card">
-          <h3>保険</h3>
-          <p>生命保険・医療保険など、加入している保険の情報をまとめておく。</p>
-        </div>
-        <div class="card">
-          <h3>契約</h3> 
-          <p>電気・ガス・水道・携帯電話・インターネット・各種サブスクリプションなど。</p>
-        </div>
-        <div class="card">
-          <h3>デジタル資産</h3>
-          <p>オンラインサービス・クラウドストレージ・SNSなどの存在を整理しておく。</p>
-        </div>
-        <div class="card">
-          <h3>その他所有物</h3>
-          <p>大切なコレクションや、特に伝えておきたい所有物。</p>
-        </div>
-      </div>
-      <p class="small">
-        これらは、「亡くなった後に必ずすべての手続きが必要」というものではありません。<br>
-        整理しておくことで、必要なときに確認しやすくなる情報です。
-      </p>
-    </section>
 
-    <section id="features-family">
-      <h2>誰に託すのかを考えるために、家族を整理する。</h2>
+      </div>
+
+      <div class="app-visual">
+
+        <div class="phone">
+
+          <div class="phone-top">
+            もしもノート
+          </div>
+
+          <div class="phone-sub">
+            MY LIFE NOTE
+          </div>
+
+          <div class="phone-card">
+            <small>PROFILE</small>
+            <strong>基本情報</strong>
+          </div>
+
+          <div class="phone-card">
+            <small>ASSETS & CONTRACTS</small>
+            <strong>資産・契約</strong>
+          </div>
+
+          <div class="phone-card">
+            <small>MY WISHES</small>
+            <strong>自分の希望</strong>
+          </div>
+
+          <div class="phone-card">
+            <small>MY LIFE</small>
+            <strong>人生年表</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="app-cta" id="start">
       <p>
-        「誰に、何をお願いするのか」を考えるためには、まず、自分を取り巻く家族のつながりを整理することが大切です。
+        もしもノートは現在開発中です。
       </p>
-      <div class="card">
+
+      <a href="#coming-soon" class="btn btn-primary">
+        もしもノートを使ってみる
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FEATURE 01 -->
+
+<section class="features">
+
+  <div class="container">
+
+    <div class="feature-block">
+
+      <div class="feature-copy">
+        <div class="section-label">01 / ORGANIZE</div>
+
+        <h3>情報を、<br>ひとつずつ整理する。</h3>
+
+        <p>
+          「何を書けばいいか分からない」から始められるように、
+          必要な項目に沿って少しずつ整理していきます。
+        </p>
+
+        <p>
+          一度にすべて完成させる必要はありません。
+          思いついたときに、少しずつ。
+        </p>
+
+        <a href="#start" class="btn btn-outline" style="margin-top:25px;">
+          アプリを使ってみる
+        </a>
+      </div>
+
+      <div class="feature-art">
+
+        <div class="art-inner">
+          <div class="art-line short"></div>
+          <div class="art-line accent"></div>
+          <div class="art-line"></div>
+          <div class="art-line short"></div>
+          <div class="art-line"></div>
+          <div class="art-line accent"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- FEATURE 02 -->
+
+    <div class="feature-block reverse">
+
+      <div class="feature-copy">
+
+        <div class="section-label">02 / FAMILY</div>
+
+        <h3>誰に託すのかを、<br>考える。</h3>
+
+        <p>
+          もしもの家系図は、単に家族関係を記録するためのものではありません。
+        </p>
+
+        <p>
+          自分に何かあったとき、
+          誰に何を伝えたいのか。
+          誰に託したいのか。
+        </p>
+
+        <a href="#start" class="btn btn-outline" style="margin-top:25px;">
+          家族のことを整理してみる
+        </a>
+
+      </div>
+
+      <div class="feature-art">
+
+        <div class="art-inner">
+
+          <div style="text-align:center;font-family:Georgia,serif;font-size:20px;">
+            MY FAMILY
+          </div>
+
+          <div style="margin-top:35px;text-align:center;">
+            ○
+          </div>
+
+          <div style="display:flex;justify-content:space-around;margin-top:25px;">
+            <span>○</span>
+            <span>○</span>
+            <span>○</span>
+          </div>
+
+          <div style="display:flex;justify-content:space-around;margin-top:25px;">
+            <span>○</span>
+            <span>○</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- FEATURE 03 -->
+
+    <div class="feature-block">
+
+      <div class="feature-copy">
+
+        <div class="section-label">03 / MY LIFE</div>
+
+        <h3>これまでを振り返り、<br>これからを考える。</h3>
+
+        <p>
+          人生年表では、これまで歩いてきた人生を振り返ります。
+        </p>
+
+        <p>
+          出来事を整理することは、
+          これから何を大切にしたいのかを考えるきっかけにもなります。
+        </p>
+
+        <a href="#start" class="btn btn-outline" style="margin-top:25px;">
+          自分の人生を整理してみる
+        </a>
+
+      </div>
+
+      <div class="feature-art">
+
+        <div class="art-inner">
+
+          <div style="font-family:Georgia,serif;font-size:20px;">
+            MY LIFE
+          </div>
+
+          <div style="margin-top:25px;">
+            <div class="art-line accent"></div>
+            <div class="art-line short"></div>
+            <div class="art-line"></div>
+            <div class="art-line accent"></div>
+            <div class="art-line short"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FAMILY -->
+
+<section class="family">
+
+  <div class="container">
+
+    <div class="section-label">YOUR STORY</div>
+
+    <h2 class="section-title">
+      「もしものため」から、<br>
+      「自分のため」へ。
+    </h2>
+
+    <p class="section-lead">
+      人生を整理することは、未来を悲観することではありません。
+      これまでを振り返り、これからを考える時間です。
+    </p>
+
+    <div class="family-grid">
+
+      <div class="family-card">
+
+        <div class="section-label">FAMILY</div>
+
         <h3>もしも家系図</h3>
-        <p>
-          家族・親族のつながりを、視覚的に整理するための機能です。<br>
-          誰に何を託すのかを考える際の「前提」として、家族関係を見える化します。
-        </p>
-      </div>
-    </section>
 
-    <section id="features-life">
-      <h2>自分の人生を振り返りながら、残しておきたいことを整理する。</h2>
-      <p>
-        自分の人生を振り返ることは、「これから何を残しておきたいか」を考えるきっかけになります。
-      </p>
-      <div class="card">
+        <p>
+          家族とのつながりを整理しながら、
+          もしものときに誰へ何を託すのかを考える。
+        </p>
+
+        <div class="mini">
+          FAMILY / CONNECTION / TRUST
+        </div>
+
+      </div>
+
+
+      <div class="family-card">
+
+        <div class="section-label">LIFE</div>
+
         <h3>人生年表</h3>
+
         <p>
-          生まれてから今までの出来事を、年表として整理するための機能です。<br>
-          大切な転機や、家族との思い出を振り返りながら、「もしものときに伝えたいこと」を考えることができます。
+          これまでの出来事を振り返り、
+          自分の人生にあった大切な時間を整理する。
+        </p>
+
+        <div class="mini">
+          MEMORY / LIFE / FUTURE
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- HOW TO -->
+
+<section class="steps">
+
+  <div class="container">
+
+    <div class="section-label">HOW TO USE</div>
+
+    <h2 class="section-title">
+      少しずつでいい。
+    </h2>
+
+    <p class="section-lead">
+      最初から完璧なエンディングノートを作る必要はありません。
+    </p>
+
+    <div class="steps-grid">
+
+      <div class="step">
+        <div class="step-number">01</div>
+        <h3>登録する</h3>
+        <p>
+          まずは自分の基本情報から。
+          書けるところから始めます。
         </p>
       </div>
-    </section>
 
-    <section id="features-others">
-      <h2>「もしものとき」に備えて、希望を整理しておく。</h2>
-      <p>
-        手続きだけでなく、「自分がどうしてほしいのか」を事前に考えておくことも、大切な準備のひとつです。
-      </p>
-      <div class="grid">
-        <div class="card">
-          <h3>ペット</h3>
-          <p>ペットの情報や、もしものときにどうしてほしいかを整理しておく。</p>
+      <div class="step">
+        <div class="step-number">02</div>
+        <h3>整理する</h3>
+        <p>
+          資産や契約、希望などを
+          少しずつ整理していきます。
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">03</div>
+        <h3>残しておく</h3>
+        <p>
+          整理した情報を、
+          もしものときに役立つ形で残します。
+        </p>
+      </div>
+
+    </div>
+
+    <div style="margin-top:60px;">
+      <a href="#start" class="btn btn-primary">
+        もしもノートを使ってみる
+      </a>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FAQ -->
+
+<section class="faq" id="faq">
+
+  <div class="container">
+
+    <div class="section-label">FAQ</div>
+
+    <h2 class="section-title">
+      よくある質問
+    </h2>
+
+    <div class="faq-list">
+
+      <details>
+        <summary>いつから始めればいいですか？</summary>
+        <p>
+          いつでも始められます。
+          元気なうちから少しずつ整理しておくことで、
+          自分自身の確認にもつながります。
+        </p>
+      </details>
+
+      <details>
+        <summary>全部入力しないといけませんか？</summary>
+        <p>
+          いいえ。最初からすべてを完成させる必要はありません。
+          思いついた項目から少しずつ整理していくことを想定しています。
+        </p>
+      </details>
+
+      <details>
+        <summary>法的な遺言書の代わりになりますか？</summary>
+        <p>
+          いいえ。もしもノートは情報整理を補助するサービスであり、
+          法的な効力を持つ遺言書や公的書類の代わりになるものではありません。
+        </p>
+      </details>
+
+      <details>
+        <summary>アプリはいつから利用できますか？</summary>
+        <p>
+          現在開発中です。
+          公開時にはこのページからアプリをご利用いただけるようにする予定です。
+        </p>
+      </details>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FINAL -->
+
+<section class="final" id="coming-soon">
+
+  <div class="container">
+
+    <div class="section-label">MOSHIMO NOTE</div>
+
+    <h2>
+      自分の人生を、<br>
+      自分の手で整理する。
+    </h2>
+
+    <p>
+      もしものためだけではなく、
+      これまでを振り返り、これからを考えるために。
+    </p>
+
+    <a href="#start" class="btn btn-primary">
+      もしもノートを使ってみる
+    </a>
+
+    <p style="font-size:11px;margin-top:20px;">
+      現在アプリ開発中です。公開までしばらくお待ちください。
+    </p>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-top">
+
+      <div>
+        <div class="footer-logo">もしもノート</div>
+        <div style="font-size:11px;margin-top:7px;">
+          人生整理・終活アプリ
         </div>
-        <div class="card">
-          <h3>希望メモ</h3>
-          <p>手続き以外に、家族に伝えておきたいことを自由に書き留めておく。</p>
-        </div>
-        <div class="card">
-          <h3>もしものとき</
+      </div>
+
+      <div class="footer-links">
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="terms.html">利用規約</a>
+        <a href="mailto:kusukiseiko@gmail.com">お問い合わせ</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © LifeLink. All Rights Reserved.
+    </div>
+
+  </div>
+
+</footer>
+
+</body>
+</html>
