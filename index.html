@@ -1,13 +1,37 @@
--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="もしもノート｜終活・人生整理。大切な情報や希望を整理して、もしものときに備えるためのアプリです。">
+<meta name="description" content="もしもノート｜終活・人生整理。もしものときに必要になる情報や人生の記録を、元気なうちに項目ごとに整理し、ひとつにまとめて管理しておけるアプリです。">
 
 <title>もしもノート｜自分の人生を、自分の手で整理する。</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&family=Zen+Maru+Gothic:wght@500;700&display=swap');
+
+/* ===== カラー・基本設定 ===== */
+:root{
+  /* 背景：白・オフホワイト・ごく薄いピンク（--ivory-deep はアプリの背景 --color-bg と同じ） */
+  --ivory:#fdfbfa;
+  --ivory-deep:#faf3f5;
+  --paper:#ffffff;
+  --ink:#2a2628;
+  --ink-soft:#5a5457;
+  --ink-mute:#8a8285;
+  /* 枠線：アプリの --color-border と同じ */
+  --line:#e8dde1;
+  /* ブランドのピンク：アプリの --color-primary / -dark / -light と同じ値 */
+  --brand:#d6497a;
+  --brand-deep:#a83368;
+  --brand-soft:#fbe4ec;
+  --brand-light:rgba(214,73,122,.32);
+  --brand-accent:#a83368;
+  --shadow:0 18px 50px rgba(43,42,40,.08);
+  --round:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Noto Sans JP",sans-serif;
+  --sans:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+}
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -19,16 +43,13 @@ html{
 }
 
 body{
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Noto Sans JP",
-    "Hiragino Kaku Gothic ProN",
-    "Yu Gothic",
-    sans-serif;
-  color:#252326;
-  background:#faf9f7;
-  line-height:1.9;
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--ivory);
+  line-height:1.95;
+  letter-spacing:.03em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
 }
 
 a{
@@ -36,20 +57,26 @@ a{
   text-decoration:none;
 }
 
+em{
+  font-style:normal;
+  color:var(--brand);
+}
+
 .container{
-  width:min(1120px, calc(100% - 40px));
+  width:min(1120px, calc(100% - 48px));
   margin:auto;
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 
 header{
   position:sticky;
   top:0;
   z-index:100;
-  background:rgba(250,249,247,.92);
+  background:rgba(247,244,236,.88);
   backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(40,35,40,.08);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(43,42,40,.06);
 }
 
 .header-inner{
@@ -60,262 +87,387 @@ header{
 }
 
 .logo{
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:22px;
-  letter-spacing:.08em;
+  display:flex;
+  align-items:center;
+  gap:11px;
 }
 
-.logo span{
+/* アプリ本体のロゴマーク（角丸の四角＋白い砂時計）と同じ形 */
+.logo-mark{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  background:var(--brand);
+  box-shadow:0 2px 6px rgba(168,51,104,.18);
+}
+
+.logo-text{
+  font-family:var(--sans);
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:.06em;
+  line-height:1.3;
+}
+
+.logo-text span{
   display:block;
-  font-family:inherit;
   font-size:10px;
-  letter-spacing:.18em;
-  color:#8b8589;
-  margin-top:-5px;
+  font-weight:600;
+  letter-spacing:.16em;
+  color:var(--brand-deep);
+  margin-top:2px;
 }
 
 nav{
   display:flex;
   align-items:center;
-  gap:28px;
+  gap:34px;
   font-size:13px;
 }
 
 nav a{
-  color:#555055;
+  color:var(--ink-soft);
+  transition:color .25s;
+}
+
+nav a:hover{
+  color:var(--brand-deep);
 }
 
 .nav-cta{
-  padding:10px 18px;
-  border:1px solid #252326;
+  padding:10px 22px;
   border-radius:999px;
-  color:#252326;
-  transition:.25s;
+  background:var(--brand);
+  color:#fff !important;
+  transition:background .25s, transform .25s;
 }
 
 .nav-cta:hover{
-  background:#252326;
-  color:white;
+  background:var(--brand-deep);
+  transform:translateY(-1px);
 }
 
-/* HERO */
+/* ===== HERO ===== */
 
 .hero{
   min-height:calc(100vh - 76px);
   display:flex;
   align-items:center;
-  padding:100px 0 110px;
+  padding:80px 0 100px;
   position:relative;
   overflow:hidden;
+  background:var(--ivory);
+}
+
+/* 背景のふんわりした丸 */
+.hero::before,
+.hero::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  background:rgba(251,228,236,.75);
 }
 
 .hero::before{
-  content:"";
-  position:absolute;
-  width:560px;
-  height:560px;
-  border-radius:50%;
-  background:#eee5eb;
-  right:-220px;
-  top:80px;
-  opacity:.65;
+  width:150px;
+  height:150px;
+  left:3%;
+  top:9%;
+}
+
+.hero::after{
+  width:96px;
+  height:96px;
+  left:16%;
+  bottom:7%;
+  background:rgba(250,243,245,.9);
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:48px;
+  align-items:center;
 }
 
 .hero-content{
   position:relative;
   z-index:1;
-  max-width:900px;
+}
+
+.hero-visual{
+  position:relative;
+  z-index:1;
+}
+
+.hero-visual svg{
+  display:block;
+  width:100%;
+  height:auto;
 }
 
 .eyebrow{
+  display:inline-block;
+  font-family:var(--round);
   font-size:12px;
   letter-spacing:.2em;
-  color:#9b3e72;
-  margin-bottom:28px;
-  font-weight:600;
+  color:var(--brand-deep);
+  margin-bottom:22px;
+  font-weight:700;
 }
 
 .hero h1{
-  font-family:
-    Georgia,
-    "Times New Roman",
-    "Noto Serif JP",
-    serif;
-  font-weight:400;
-  font-size:clamp(42px,6vw,78px);
-  line-height:1.28;
-  letter-spacing:.02em;
-  max-width:850px;
+  font-family:var(--round);
+  font-weight:700;
+  font-size:clamp(28px,3.6vw,46px);
+  line-height:1.5;
+  letter-spacing:.04em;
+  color:var(--ink);
 }
 
 .hero h1 em{
-  font-style:normal;
-  color:#9b3e72;
+  color:var(--brand-accent);
+  white-space:nowrap;
+}
+
+/* 動画を見るボタン（機能はそのまま、見た目のみ） */
+.btn-video{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin:26px 0 0;
+  padding:9px 20px;
+  background:transparent;
+  color:var(--ink-soft);
+  border:1px solid var(--line);
+  border-radius:999px;
+  font-family:var(--sans);
+  font-size:13px;
+  line-height:normal; /* <a>に変えても、以前の<button>と同じ高さにする */
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.btn-video:hover{
+  border-color:var(--brand);
+  color:var(--brand-deep);
+  background:rgba(255,255,255,.6);
 }
 
 .hero-lead{
-  margin-top:34px;
-  max-width:650px;
-  font-size:17px;
-  color:#666065;
+  margin:20px 0 0;
+  max-width:520px;
+  font-size:15.5px;
+  line-height:2;
+  color:var(--ink-soft);
 }
 
 .hero-actions{
   display:flex;
+  justify-content:flex-start;
   gap:14px;
-  margin-top:42px;
+  margin-top:34px;
   flex-wrap:wrap;
 }
+
+/* ===== BUTTONS ===== */
 
 .btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-height:54px;
-  padding:0 27px;
+  gap:10px;
+  min-height:56px;
+  padding:0 34px;
   border-radius:999px;
   font-size:14px;
-  transition:.25s;
+  font-weight:500;
+  letter-spacing:.08em;
+  transition:background .3s, color .3s, border-color .3s, transform .3s, box-shadow .3s;
 }
 
 .btn-primary{
-  background:#252326;
-  color:white;
+  background:var(--brand);
+  color:#fff;
+  box-shadow:0 10px 26px rgba(214,73,122,.24);
+  font-weight:700;
+}
+
+.btn-primary::after{
+  content:"→";
+  font-size:15px;
+  transition:transform .3s;
 }
 
 .btn-primary:hover{
+  background:var(--brand-deep);
   transform:translateY(-2px);
-  background:#9b3e72;
+  box-shadow:0 16px 34px rgba(168,51,104,.28);
+}
+
+.btn-primary:hover::after{
+  transform:translateX(4px);
 }
 
 .btn-outline{
-  border:1px solid #c9c3c7;
-  color:#4e494d;
+  border:1px solid #e3d4da;
+  color:var(--ink-soft);
+  background:rgba(255,255,255,.45);
 }
 
 .btn-outline:hover{
-  border-color:#252326;
+  border-color:var(--brand);
+  color:var(--brand-deep);
+  background:#fff;
 }
 
 .hero-note{
-  margin-top:20px;
+  margin-top:22px;
   font-size:12px;
-  color:#999397;
+  color:var(--ink-mute);
 }
 
-/* SECTION */
+/* ===== SECTION 共通 ===== */
 
 section{
-  padding:120px 0;
+  padding:140px 0;
 }
 
 .section-label{
+  display:flex;
+  align-items:center;
+  gap:12px;
   font-size:11px;
-  letter-spacing:.2em;
-  color:#9b3e72;
-  font-weight:600;
-  margin-bottom:18px;
+  letter-spacing:.28em;
+  color:var(--brand-deep);
+  font-weight:500;
+  margin-bottom:22px;
+}
+
+.section-label::before{
+  content:"";
+  width:28px;
+  height:1px;
+  background:currentColor;
+  opacity:.6;
 }
 
 .section-title{
-  font-family:
-    Georgia,
-    "Times New Roman",
-    "Noto Serif JP",
-    serif;
-  font-size:clamp(32px,4vw,52px);
-  line-height:1.4;
-  font-weight:400;
-  letter-spacing:.02em;
+  font-family:var(--round);
+  font-size:clamp(27px,3.6vw,44px);
+  line-height:1.55;
+  font-weight:700;
+  letter-spacing:.04em;
 }
 
 .section-lead{
-  margin-top:24px;
-  color:#6d686c;
-  max-width:700px;
+  margin-top:26px;
+  color:var(--ink-soft);
+  max-width:680px;
+  font-size:15px;
+  line-height:2.1;
 }
 
-/* INTRO */
+/* ===== INTRO（もしもノートとは） ===== */
 
 .intro{
-  background:white;
+  background:var(--paper);
 }
 
 .intro-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:80px;
+  grid-template-columns:1.1fr 1fr;
+  gap:90px;
   align-items:center;
 }
 
 .intro-quote{
-  font-family:Georgia,"Times New Roman","Noto Serif JP",serif;
-  font-size:clamp(27px,3vw,42px);
-  line-height:1.6;
+  font-family:var(--round);
+  font-size:clamp(24px,2.7vw,36px);
+  line-height:1.85;
+  font-weight:500;
+  letter-spacing:.04em;
 }
 
-.intro-text{
-  color:#686267;
+.intro-grid > div:last-child{
+  padding-left:48px;
+  border-left:1px solid var(--line);
 }
 
-/* PROBLEM */
+.intro-grid > div:last-child .section-lead:first-child{
+  margin-top:0;
+}
+
+/* ===== PROBLEM ===== */
 
 .problem{
-  background:#f4f0f2;
+  background:var(--ivory);
 }
 
 .problem-grid{
-  margin-top:60px;
+  margin-top:64px;
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:1px;
-  background:#ddd7db;
-  border:1px solid #ddd7db;
+  gap:16px;
 }
 
 .problem-item{
-  background:#f4f0f2;
-  padding:34px;
+  background:#fff;
+  padding:28px 32px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  border-top:3px solid var(--brand-soft);
+  box-shadow:0 1px 3px rgba(43,42,40,.05);
+  display:grid;
+  grid-template-columns:48px 1fr;
+  column-gap:8px;
+  transition:transform .3s, box-shadow .3s;
+}
+
+.problem-item:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
 }
 
 .problem-number{
-  font-family:Georgia,serif;
-  font-size:13px;
-  color:#9b3e72;
+  grid-row:span 2;
+  font-family:var(--round);
+  font-size:15px;
+  color:var(--brand);
+  padding-top:2px;
 }
 
 .problem-item h3{
-  margin-top:12px;
-  font-size:18px;
+  font-family:var(--sans);
+  font-size:17px;
   font-weight:500;
+  line-height:1.6;
 }
 
 .problem-item p{
-  margin-top:8px;
+  margin-top:6px;
   font-size:14px;
-  color:#777176;
+  color:var(--ink-mute);
 }
 
-/* APP */
+/* ===== APP ===== */
 
 .app{
-  background:#252326;
-  color:white;
-}
-
-.app .section-label{
-  color:#d889b1;
-}
-
-.app .section-lead{
-  color:#c6c0c5;
+  background:linear-gradient(170deg,#faf3f5 0%,#fdfbfa 100%);
+  color:var(--ink);
 }
 
 .app-layout{
-  margin-top:65px;
+  margin-top:70px;
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:80px;
+  gap:90px;
   align-items:center;
 }
 
@@ -325,104 +477,316 @@ section{
 }
 
 .app-feature{
-  padding:25px 0;
-  border-bottom:1px solid rgba(255,255,255,.14);
+  padding:28px 0;
+  border-bottom:1px solid rgba(168,51,104,.16);
 }
 
 .app-feature:first-child{
-  border-top:1px solid rgba(255,255,255,.14);
+  border-top:1px solid rgba(168,51,104,.16);
 }
 
 .app-feature h3{
-  font-family:Georgia,"Noto Serif JP",serif;
-  font-size:23px;
-  font-weight:400;
+  font-family:var(--round);
+  font-size:22px;
+  font-weight:500;
+  color:var(--ink);
+  letter-spacing:.06em;
 }
 
 .app-feature p{
-  margin-top:7px;
-  font-size:13px;
-  color:#bbb5ba;
+  margin-top:8px;
+  font-size:14px;
+  color:var(--ink-soft);
 }
 
 .app-visual{
-  min-height:500px;
-  border-radius:28px;
-  background:
-    linear-gradient(145deg,#eee7eb,#d9cdd4);
-  padding:38px;
+  min-height:540px;
+  border-radius:32px;
+  background:linear-gradient(150deg,#ffffff,#faf3f5);
+  border:1px solid rgba(255,255,255,.8);
+  padding:40px;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
 .phone{
-  width:270px;
-  min-height:470px;
-  border-radius:34px;
-  background:#fff;
-  color:#252326;
-  box-shadow:0 30px 70px rgba(0,0,0,.25);
-  padding:28px 22px;
+  width:280px;
+  min-height:500px;
+  border-radius:38px;
+  background:var(--paper);
+  color:var(--ink);
+  box-shadow:0 30px 70px rgba(168,51,104,.18), 0 0 0 8px #fff;
+  padding:32px 22px;
 }
 
 .phone-top{
-  font-family:Georgia,serif;
-  font-size:19px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:.05em;
+}
+
+.phone-top .logo-mark{
+  width:30px;
+  height:30px;
+  border-radius:9px;
 }
 
 .phone-sub{
-  font-size:10px;
-  color:#999;
-  margin-top:3px;
+  font-size:9px;
+  letter-spacing:.24em;
+  color:var(--brand);
+  margin-top:6px;
+  padding-left:39px;
 }
 
 .phone-card{
-  margin-top:25px;
-  padding:18px;
-  border-radius:17px;
-  background:#f6f3f4;
+  margin-top:14px;
+  padding:14px 16px;
+  border-radius:12px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:3px solid var(--brand);
+  box-shadow:0 1px 3px rgba(43,42,40,.06);
+}
+
+.phone-card:first-of-type{
+  margin-top:24px;
 }
 
 .phone-card small{
-  color:#9b3e72;
+  color:var(--brand);
   font-size:9px;
+  letter-spacing:.18em;
 }
 
 .phone-card strong{
   display:block;
-  margin-top:5px;
-  font-family:Georgia,"Noto Serif JP",serif;
-  font-size:19px;
-  font-weight:400;
+  margin-top:2px;
+  font-size:15px;
+  font-weight:700;
+  color:var(--brand-deep);
 }
 
-/* CTA */
+/* APP内CTA */
 
 .app-cta{
-  margin-top:55px;
+  margin-top:80px;
+  padding:52px 30px;
   text-align:center;
+  border-radius:24px;
+  background:#fff;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
 }
 
 .app-cta p{
-  color:#bbb5ba;
-  font-size:13px;
-  margin-bottom:18px;
+  color:var(--ink-soft);
+  font-size:14px;
+  margin-bottom:22px;
 }
 
-/* FEATURES */
+/* 「でも、あなたにしか分からない」 */
+.problem-close{
+  margin-top:56px;
+  padding:40px 44px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-left:4px solid var(--brand);
+  border-radius:16px;
+}
+
+.problem-close-title{
+  font-family:var(--round);
+  font-size:clamp(21px,2.4vw,28px);
+  font-weight:700;
+  line-height:1.6;
+}
+
+.problem-close p:not(.problem-close-title){
+  margin-top:12px;
+  color:var(--ink-soft);
+  font-size:15px;
+  line-height:1.95;
+}
+
+/* なぜアプリで管理するのか */
+.why{
+  background:var(--paper);
+}
+
+.compare{
+  margin-top:48px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.compare-col{
+  border-radius:18px;
+  padding:28px 30px;
+  border:1px solid var(--line);
+}
+
+.compare-paper{
+  background:var(--ivory);
+}
+
+.compare-app{
+  background:#fff;
+  border:2px solid var(--brand);
+  box-shadow:0 14px 36px rgba(214,73,122,.1);
+}
+
+.compare-head{
+  font-family:var(--round);
+  font-weight:700;
+  font-size:18px;
+  margin-bottom:12px;
+}
+
+.compare-paper .compare-head{
+  color:var(--ink-mute);
+}
+
+.compare-app .compare-head{
+  color:var(--brand-deep);
+}
+
+.compare ul{
+  list-style:none;
+  display:grid;
+  gap:8px;
+}
+
+.compare li{
+  position:relative;
+  padding-left:26px;
+  font-size:15px;
+  line-height:1.8;
+}
+
+.compare-paper li{
+  color:var(--ink-mute);
+}
+
+.compare-paper li::before{
+  content:"";
+  position:absolute;
+  left:4px;
+  top:.8em;
+  width:10px;
+  height:2px;
+  background:#d3c7cc;
+}
+
+.compare-app li::before{
+  content:"✓";
+  position:absolute;
+  left:0;
+  top:0;
+  color:var(--brand);
+  font-weight:700;
+}
+
+.merit-grid{
+  margin-top:40px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.merit{
+  background:var(--ivory-deep);
+  border-radius:16px;
+  padding:26px 26px 24px;
+}
+
+.merit-num{
+  font-family:var(--round);
+  font-weight:700;
+  font-size:13px;
+  color:var(--brand);
+  letter-spacing:.1em;
+}
+
+.merit h3{
+  margin-top:6px;
+  font-family:var(--round);
+  font-size:19px;
+  font-weight:700;
+  line-height:1.5;
+}
+
+.merit p{
+  margin-top:8px;
+  font-size:14px;
+  line-height:1.85;
+  color:var(--ink-soft);
+}
+
+/* アプリ紹介 */
+.app-catch{
+  margin-top:14px;
+  font-family:var(--round);
+  font-weight:700;
+  font-size:17px;
+  color:var(--brand-deep);
+}
+
+.app-note{
+  margin-top:18px;
+  font-size:12px;
+  line-height:1.8;
+  color:var(--ink-mute);
+}
+
+.app-cta .app-cta-title{
+  font-family:var(--round);
+  font-weight:700;
+  font-size:clamp(20px,2.4vw,26px);
+  color:var(--ink) !important;
+  margin-bottom:6px !important;
+}
+
+/* できることの後のCTA */
+.cta-band{
+  margin-top:20px;
+  padding:48px 30px;
+  text-align:center;
+  background:var(--ivory-deep);
+  border-radius:24px;
+}
+
+.cta-band-title{
+  font-family:var(--round);
+  font-weight:700;
+  font-size:clamp(21px,2.6vw,28px);
+}
+
+.cta-band p:not(.cta-band-title){
+  margin:6px 0 24px;
+  color:var(--ink-soft);
+  font-size:15px;
+}
+
+/* ===== FEATURES（できること） ===== */
 
 .features{
-  background:white;
+  background:var(--paper);
+  padding:60px 0;
 }
 
 .feature-block{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:90px;
+  gap:100px;
   align-items:center;
-  padding:80px 0;
-  border-bottom:1px solid #e6e1e4;
+  padding:90px 0;
+  border-bottom:1px solid var(--line);
 }
 
 .feature-block:last-child{
@@ -438,39 +802,268 @@ section{
 }
 
 .feature-copy h3{
-  font-family:Georgia,"Noto Serif JP",serif;
-  font-size:34px;
-  font-weight:400;
+  font-family:var(--round);
+  font-size:clamp(25px,2.8vw,32px);
+  font-weight:700;
+  line-height:1.65;
+  letter-spacing:.05em;
 }
 
 .feature-copy p{
-  margin-top:20px;
-  color:#6f696e;
+  margin-top:22px;
+  color:var(--ink-soft);
+  font-size:15px;
+  line-height:2.1;
+}
+
+.feature-copy p + p{
+  margin-top:12px;
 }
 
 .feature-art{
-  min-height:350px;
-  border-radius:26px;
-  background:#f3eef1;
+  min-height:380px;
+  border-radius:30px;
+  background:
+    radial-gradient(circle at 80% 15%, rgba(214,73,122,0.17), transparent 55%),
+    var(--ivory-deep);
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:40px;
+  padding:44px;
 }
 
 .art-inner{
   width:80%;
-  padding:35px;
-  background:white;
-  border-radius:20px;
-  box-shadow:0 15px 45px rgba(60,40,50,.08);
+  padding:38px;
+  background:#fff;
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  color:var(--brand);
+  letter-spacing:.12em;
+}
+
+.art-inner{
+  border:1px solid var(--line);
+}
+
+.art-title{
+  font-family:var(--sans);
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.22em;
+  color:var(--brand-deep);
+}
+
+/* 01：アプリのHOME画面風（ロゴ＋見出し、分類ごとのメニューカード） */
+.app-screen{
+  padding:24px;
+  background:var(--ivory);
+}
+
+.app-bar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:6px;
+}
+
+.app-bar .logo-mark{
+  width:32px;
+  height:32px;
+  border-radius:9px;
+}
+
+.bar-stack{
+  flex:1;
+}
+
+.bar-stack .art-line{
+  margin:4px 0;
+  max-width:110px;
+  background:var(--brand-deep);
+  opacity:.75;
+}
+
+.bar-stack .art-line.thin{
+  height:5px;
+  max-width:170px;
+  background:#eadde2;
+  opacity:1;
+}
+
+.art-line.cat{
+  width:58px;
+  height:7px;
+  margin:18px 0 9px;
+  background:var(--brand);
+  opacity:.8;
+}
+
+.mini-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.mini-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:3px solid var(--brand);
+  border-radius:8px;
+  padding:4px 10px;
+}
+
+.mini-card .art-line{
+  height:6px;
+  margin:8px 0;
+}
+
+/* 02：アプリのツリー画面風（角丸の人物カード＋直角の線） */
+.family-art .tree-row span{
+  position:relative;
+  display:inline-block;
+  width:60px;
+  height:38px;
+  border-radius:8px;
+  border:1px solid #e3d4da;
+  border-top:4px solid var(--brand);
+  background:
+    linear-gradient(#efe3e8,#efe3e8) no-repeat 50% 40% / 60% 5px,
+    linear-gradient(#f5ecef,#f5ecef) no-repeat 50% 72% / 40% 4px,
+    #fff;
+  box-shadow:0 1px 2px rgba(43,42,40,.06);
+  font-size:0;
+  vertical-align:top;
+}
+
+.family-art .tree-row span:nth-child(even){
+  border-top-color:var(--brand-light);
+}
+
+/* 本人のカード */
+.family-art .tree-row:nth-child(2) span{
+  border-color:var(--brand);
+  border-top-width:4px;
+  background:
+    linear-gradient(var(--brand-light),var(--brand-light)) no-repeat 50% 40% / 60% 5px,
+    linear-gradient(#efe3e8,#efe3e8) no-repeat 50% 72% / 40% 4px,
+    #fdf3f7;
+}
+
+.family-art .tree-row + .tree-row{
+  position:relative;
+  padding-top:22px;
+}
+
+/* 横の線 */
+.family-art .tree-row + .tree-row::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:16.67%;
+  right:16.67%;
+  border-top:2px solid var(--brand-light);
+}
+
+.family-art .tree-row:nth-child(4)::before{
+  left:25%;
+  right:25%;
+}
+
+/* 縦の線（カードの上へ） */
+.family-art .tree-row + .tree-row span::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:100%;
+  height:23px;
+  border-left:2px solid var(--brand-light);
+  margin-left:-1px;
+}
+
+/* 縦の線（カードの下へ：本人と、2段目の中央） */
+.family-art .tree-row:nth-child(2) span::after,
+.family-art .tree-row:nth-child(3) span:nth-child(2)::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:100%;
+  height:25px;
+  border-left:2px solid var(--brand-light);
+  margin-left:-1px;
+}
+
+/* 03：アプリの年表画面風（左に年の列、右に出来事の行カード） */
+.timeline{
+  position:relative;
+  padding-left:52px;
+}
+
+.timeline::before{
+  content:"";
+  position:absolute;
+  left:40px;
+  top:4px;
+  bottom:4px;
+  width:1px;
+  background:var(--line);
+}
+
+.life-art .timeline .art-line{
+  --bar:#ecdfe4;
+  --bar-w:45%;
+  position:relative;
+  width:auto;
+  height:34px;
+  margin:9px 0;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:
+    linear-gradient(var(--bar),var(--bar)) no-repeat 28px 50% / var(--bar-w) 6px,
+    #fff;
+  box-shadow:0 1px 1.5px rgba(43,42,40,.06);
+}
+
+.timeline .art-line.short{
+  --bar-w:30%;
+}
+
+.timeline .art-line.accent{
+  --bar:var(--brand-light);
+  --bar-w:58%;
+}
+
+/* 行の左端の●印 */
+.timeline .art-line::before{
+  content:"";
+  position:absolute;
+  left:11px;
+  top:50%;
+  width:8px;
+  height:8px;
+  margin-top:-4px;
+  border-radius:50%;
+  background:var(--brand);
+}
+
+/* 左の年の列 */
+.timeline .art-line::after{
+  content:"";
+  position:absolute;
+  left:-50px;
+  top:50%;
+  width:30px;
+  height:6px;
+  margin-top:-3px;
+  border-radius:4px;
+  background:#e3d4da;
 }
 
 .art-line{
-  height:9px;
-  background:#e8e2e6;
+  height:8px;
+  background:#f1e8eb;
   border-radius:10px;
-  margin:13px 0;
+  margin:14px 0;
 }
 
 .art-line.short{
@@ -479,131 +1072,171 @@ section{
 
 .art-line.accent{
   width:72%;
-  background:#d99ab9;
+  background:var(--brand-light);
 }
 
-/* FAMILY & LIFE */
+/* ===== FAMILY & LIFE ===== */
+
+.family,
+.steps,
+.faq{
+  padding:100px 0;
+}
+
+.family .section-lead,
+.steps .section-lead{
+  margin-top:16px;
+  line-height:1.95;
+}
 
 .family{
-  background:#f4f0f2;
+  background:var(--ivory);
 }
 
 .family-grid{
-  margin-top:60px;
+  margin-top:40px;
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:22px;
+  gap:18px;
 }
 
 .family-card{
-  background:white;
-  padding:45px;
-  min-height:340px;
-  border-radius:25px;
+  background:#fff;
+  padding:32px 34px 28px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  border-top:3px solid var(--brand);
+  box-shadow:0 1px 3px rgba(43,42,40,.05);
+  transition:transform .3s, box-shadow .3s;
+}
+
+.family-card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow);
+}
+
+.family-card .section-label{
+  margin-bottom:12px;
 }
 
 .family-card h3{
-  font-family:Georgia,"Noto Serif JP",serif;
-  font-size:30px;
-  font-weight:400;
+  font-family:var(--round);
+  font-size:25px;
+  font-weight:500;
+  letter-spacing:.06em;
 }
 
 .family-card p{
-  margin-top:18px;
-  color:#706a6f;
+  margin-top:10px;
+  color:var(--ink-soft);
+  font-size:15px;
+  line-height:1.9;
 }
 
 .family-card .mini{
-  margin-top:35px;
-  font-size:11px;
-  color:#9b3e72;
-  letter-spacing:.08em;
+  margin-top:20px;
+  padding-top:12px;
+  border-top:1px solid var(--line);
+  font-size:10px;
+  color:var(--brand);
+  letter-spacing:.24em;
 }
 
-/* STEPS */
+/* ===== STEPS ===== */
 
 .steps{
-  background:white;
+  background:var(--paper);
 }
 
 .steps-grid{
-  margin-top:60px;
+  margin-top:40px;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:35px;
+  gap:16px;
+}
+
+/* ボタンの上の余白（HTML側の指定より優先して少し詰める） */
+.steps-grid + div{
+  margin-top:40px !important;
 }
 
 .step{
-  padding-top:25px;
-  border-top:1px solid #cfc8cc;
+  display:grid;
+  grid-template-columns:36px 1fr;
+  column-gap:14px;
+  align-items:center;
+  padding:22px 24px 24px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:3px solid var(--brand);
+  border-radius:14px;
 }
 
 .step-number{
-  font-family:Georgia,serif;
-  color:#9b3e72;
-  font-size:13px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--brand);
+  color:#fff;
+  font-family:var(--round);
+  font-size:14px;
 }
 
 .step h3{
-  margin-top:15px;
-  font-family:Georgia,"Noto Serif JP",serif;
-  font-size:25px;
-  font-weight:400;
+  font-family:var(--round);
+  font-size:21px;
+  font-weight:500;
+  letter-spacing:.06em;
+  line-height:1.5;
 }
 
 .step p{
+  grid-column:1 / -1;
   margin-top:10px;
   font-size:14px;
-  color:#706a6f;
+  line-height:1.85;
+  color:var(--ink-soft);
 }
 
-/* FINAL CTA */
-
-.final{
-  padding:150px 0;
-  background:#eee5eb;
-  text-align:center;
-}
-
-.final h2{
-  font-family:Georgia,"Noto Serif JP",serif;
-  font-size:clamp(38px,5vw,66px);
-  font-weight:400;
-  line-height:1.45;
-}
-
-.final p{
-  margin:25px auto 35px;
-  max-width:620px;
-  color:#6d666b;
-}
-
-/* FAQ */
+/* ===== FAQ ===== */
 
 .faq{
-  background:#faf9f7;
+  background:var(--ivory);
+}
+
+.faq .container{
+  max-width:860px;
 }
 
 .faq-list{
-  margin-top:55px;
-  max-width:850px;
+  margin-top:36px;
+  display:grid;
+  gap:10px;
 }
 
 details{
-  border-top:1px solid #ddd7da;
-  padding:24px 0;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:0 28px;
+  transition:box-shadow .3s;
 }
 
-details:last-child{
-  border-bottom:1px solid #ddd7da;
+details[open]{
+  box-shadow:var(--shadow);
+  border-left:3px solid var(--brand);
 }
 
 summary{
   cursor:pointer;
   font-size:16px;
+  font-weight:500;
   list-style:none;
   position:relative;
-  padding-right:35px;
+  padding:18px 44px 18px 0;
 }
 
 summary::-webkit-details-marker{
@@ -614,109 +1247,282 @@ summary::after{
   content:"+";
   position:absolute;
   right:0;
-  font-size:20px;
-  color:#9b3e72;
+  top:50%;
+  transform:translateY(-50%);
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:var(--brand-soft);
+  color:var(--brand);
+  font-size:18px;
+  line-height:30px;
+  text-align:center;
 }
 
 details[open] summary::after{
   content:"−";
+  background:var(--brand);
+  color:#fff;
 }
 
 details p{
-  padding-top:15px;
-  color:#777176;
+  padding:0 0 20px;
+  margin-top:-2px;
+  color:var(--ink-soft);
   font-size:14px;
+  line-height:1.9;
 }
 
-/* FOOTER */
+/* ===== FINAL CTA ===== */
+
+.final{
+  padding:120px 0;
+  text-align:center;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(214,73,122,0.15), transparent 70%),
+    var(--ivory-deep);
+}
+
+.final .section-label{
+  justify-content:center;
+}
+
+.final .section-label::after{
+  content:"";
+  width:28px;
+  height:1px;
+  background:currentColor;
+  opacity:.6;
+}
+
+.final h2{
+  font-family:var(--round);
+  font-size:clamp(28px,4.2vw,52px);
+  font-weight:700;
+  line-height:1.6;
+  letter-spacing:.06em;
+}
+
+.final p{
+  margin:20px auto 32px;
+  max-width:620px;
+  color:var(--ink-soft);
+}
+
+.final p:last-child{
+  color:var(--ink-mute);
+}
+
+/* ===== FOOTER ===== */
 
 footer{
-  background:#252326;
-  color:#aaa4a9;
-  padding:55px 0 35px;
+  background:var(--ivory-deep);
+  color:var(--ink-mute);
+  padding:56px 0 32px;
+  border-top:1px solid var(--line);
 }
 
 .footer-top{
   display:flex;
   justify-content:space-between;
-  gap:40px;
-  padding-bottom:40px;
-  border-bottom:1px solid rgba(255,255,255,.12);
+  align-items:center;
+  gap:24px 40px;
+  flex-wrap:wrap;
+  padding-bottom:28px;
+  border-bottom:1px solid var(--line);
 }
 
 .footer-logo{
-  color:white;
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:22px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  color:var(--ink);
+  font-size:17px;
+  font-weight:700;
+  letter-spacing:.06em;
+}
+
+.footer-logo .logo-mark{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  box-shadow:none;
 }
 
 .footer-links{
   display:flex;
-  gap:25px;
   flex-wrap:wrap;
-  font-size:12px;
+  align-items:center;
+  gap:4px 22px;
+  font-size:11px;
+  letter-spacing:.04em;
+}
+
+.footer-links a{
+  color:var(--ink-mute);
+  padding:4px 0;
+  transition:color .25s;
 }
 
 .footer-links a:hover{
-  color:white;
+  color:var(--brand-deep);
+  text-decoration:underline;
+  text-underline-offset:3px;
 }
 
 .footer-bottom{
-  padding-top:25px;
-  font-size:11px;
+  padding-top:22px;
+  font-size:10px;
+  letter-spacing:.1em;
+  color:#a8a0a3;
 }
 
-/* MOBILE */
+/* ===== 動画 ===== */
+
+.video-section{
+  padding:64px 0 80px;
+  background:var(--ivory);
+  /* 「▶ 動画を見る」で移動したとき、固定ヘッダーの下に隠れないようにする */
+  scroll-margin-top:24px;
+}
+
+.video-section video{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:20px;
+  background:#000;
+  box-shadow:0 30px 70px rgba(43,42,40,.16);
+}
+
+/* ===== TABLET ===== */
+
+@media(max-width:1000px){
+
+  .intro-grid,
+  .app-layout,
+  .feature-block{
+    gap:56px;
+  }
+
+  .intro-grid > div:last-child{
+    padding-left:32px;
+  }
+}
+
+/* ===== MOBILE ===== */
 
 @media(max-width:800px){
 
   .container{
-    width:min(100% - 30px,1120px);
-  }
-
-  header{
-    position:relative;
+    width:calc(100% - 40px);
   }
 
   .header-inner{
-    height:68px;
+    height:64px;
   }
 
-  nav{
+  .logo-mark{
+    width:34px;
+    height:34px;
+  }
+
+  .logo-text{
+    font-size:16px;
+  }
+
+  nav a:not(.nav-cta){
     display:none;
+  }
+
+  .nav-cta{
+    padding:8px 16px;
+    font-size:12px;
   }
 
   .hero{
     min-height:auto;
-    padding:80px 0 90px;
+    padding:56px 0 72px;
+  }
+
+  .hero::before{
+    width:100px;
+    height:100px;
+    left:-20px;
+    top:20px;
+  }
+
+  .hero::after{
+    width:70px;
+    height:70px;
+    left:auto;
+    right:-10px;
+    bottom:30%;
+  }
+
+  .hero-grid{
+    grid-template-columns:1fr;
+    gap:44px;
+  }
+
+  .hero-visual{
+    max-width:440px;
+    width:100%;
+    margin:0 auto;
+  }
+
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:.18em;
+    margin-bottom:18px;
   }
 
   .hero h1{
-    font-size:43px;
+    line-height:1.6;
+    letter-spacing:.03em;
   }
 
   .hero-lead{
     font-size:15px;
+    text-align:left;
   }
 
   .hero-actions{
-    display:block;
+    flex-direction:column;
+    align-items:stretch;
+    gap:12px;
   }
 
   .hero-actions .btn{
     width:100%;
-    margin-bottom:10px;
   }
 
   section{
-    padding:85px 0;
+    padding:96px 0;
+  }
+
+  .section-lead,
+  .feature-copy p,
+  .family-card p{
+    font-size:15px;
   }
 
   .intro-grid,
   .app-layout,
   .feature-block{
     grid-template-columns:1fr;
-    gap:45px;
+    gap:44px;
+  }
+
+  .intro-grid > div:last-child{
+    padding-left:0;
+    padding-top:36px;
+    border-left:none;
+    border-top:1px solid var(--line);
+  }
+
+  .feature-block{
+    padding:70px 0;
   }
 
   .feature-block.reverse .feature-copy,
@@ -724,67 +1530,187 @@ footer{
     order:initial;
   }
 
-  .problem-grid{
-    grid-template-columns:1fr;
-  }
-
-  .problem-item{
+  .feature-art{
+    min-height:300px;
     padding:28px;
   }
 
+  .art-inner{
+    width:100%;
+    padding:30px;
+  }
+
+  .problem-grid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  .problem-item{
+    padding:24px 24px;
+    grid-template-columns:40px 1fr;
+  }
+
   .app-visual{
-    min-height:430px;
-    padding:25px;
+    min-height:auto;
+    padding:44px 20px;
   }
 
   .phone{
-    width:235px;
-    min-height:410px;
+    width:240px;
+    min-height:440px;
+  }
+
+  .app-cta{
+    margin-top:60px;
+    padding:40px 22px;
   }
 
   .family-grid{
     grid-template-columns:1fr;
   }
 
+  .family,
+  .steps,
+  .faq{
+    padding:68px 0;
+  }
+
+  .family-grid,
+  .steps-grid{
+    margin-top:28px;
+  }
+
   .family-card{
-    min-height:280px;
-    padding:32px;
+    min-height:auto;
+    padding:26px 24px 22px;
+  }
+
+  .family-card h3{
+    font-size:22px;
   }
 
   .steps-grid{
     grid-template-columns:1fr;
-    gap:40px;
+    gap:10px;
+  }
+
+  .steps-grid + div{
+    margin-top:28px !important;
+  }
+
+  .step{
+    padding:18px 20px 20px;
+  }
+
+  .step h3{
+    font-size:19px;
+  }
+
+  .step p{
+    margin-top:8px;
+  }
+
+  .faq-list{
+    margin-top:28px;
+    gap:8px;
+  }
+
+  .section-title{
+    font-size:24px;
+  }
+
+  .problem-close{
+    margin-top:36px;
+    padding:26px 22px;
+  }
+
+  .compare,
+  .merit-grid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+
+  .compare{
+    margin-top:32px;
+  }
+
+  .compare-col{
+    padding:22px 22px;
+  }
+
+  .merit{
+    padding:20px 22px;
+  }
+
+  .cta-band{
+    padding:36px 20px;
+  }
+
+  summary{
+    padding:16px 40px 16px 0;
+  }
+
+  details{
+    padding:0 22px;
+  }
+
+  summary{
+    font-size:15px;
   }
 
   .final{
-    padding:105px 0;
+    padding:80px 0;
+  }
+
+  .btn{
+    padding:0 28px;
   }
 
   .footer-top{
-    display:block;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:20px;
   }
 
-  .footer-links{
-    margin-top:30px;
+  .video-section{
+    padding:44px 0 56px;
+  }
+
+  .video-section video{
+    border-radius:14px;
   }
 }
 </style>
+
 </head>
 
 <body>
 
+<!-- アプリ本体と同じ砂時計ロゴ（web/components/Logo.tsx と同じ形）。ヘッダー・フッター・画面イメージで共通利用 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="brand-hourglass" viewBox="0 0 24 24">
+    <path d="M8 3.2h9M8 17.2h9" stroke="#fff" stroke-width="1.1" stroke-linecap="round" opacity="0.4"/>
+    <path d="M8.8 3.2c0 3 2.8 4.8 3.7 6.2-.9 1.4-3.7 3.2-3.7 6.2M16.2 3.2c0 3-2.8 4.8-3.7 6.2.9 1.4 3.7 3.2 3.7 6.2" stroke="#fff" stroke-width="1" fill="none" opacity="0.4"/>
+    <path d="M6 5.5h11M6 20h11" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M7 5.5c0 3.6 3.1 5.6 4.3 7.3-1.2 1.6-4.3 3.6-4.3 7.2M17 5.5c0 3.6-3.1 5.6-4.3 7.3 1.2 1.6 4.3 3.6 4.3 7.2" stroke="#fff" stroke-width="1.3" fill="none"/>
+  </symbol>
+</svg>
+
 <header>
   <div class="container header-inner">
     <a href="#" class="logo">
+      <span class="logo-mark" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="#brand-hourglass"/></svg></span>
+      <span class="logo-text">
       もしもノート
       <span>人生整理・終活アプリ</span>
+      </span>
     </a>
 
     <nav>
       <a href="#about">もしもノートとは</a>
       <a href="#features">できること</a>
       <a href="#faq">FAQ</a>
-      <a href="#start" class="nav-cta">使ってみる</a>
+      <a href="https://shigo-jimu-platform.vercel.app/" class="nav-cta">使ってみる</a>
     </nav>
   </div>
 </header>
@@ -794,7 +1720,7 @@ footer{
 <!-- HERO -->
 
 <section class="hero">
-  <div class="container">
+  <div class="container hero-grid">
     <div class="hero-content">
 
       <div class="eyebrow">LIFELINK / MOSHIMO NOTE</div>
@@ -804,14 +1730,15 @@ footer{
         誰が、あなたの<br>
         <em>手続きをしますか？</em>
       </h1>
-<button onclick="document.querySelector('video[src*=\'moshimo.mp4\']').scrollIntoView({behavior:'smooth', block:'center'});" style="display:inline-block; padding:12px 24px; margin:15px 0; background:#333; color:#fff; border:none; border-radius:30px; font-size:16px; cursor:pointer;">▶ 動画を見る</button>
+<a href="#video" class="btn-video">▶ 動画を見る</a>
 <p class="hero-lead">
-              「もしもノート」は、もしものときに必要になる情報や、
-        あなたの希望を整理して残しておくための人生整理アプリです。
+        「もしもノート」は、もしものときに必要になる情報や、
+        あなたの希望を、元気なうちに整理して、
+        ひとつにまとめて管理しておくためのアプリです。
       </p>
 
       <div class="hero-actions">
-        <a href="#start" class="btn btn-primary">
+        <a href="https://shigo-jimu-platform.vercel.app/" class="btn btn-primary">
           もしもノートを使ってみる
         </a>
 
@@ -825,41 +1752,69 @@ footer{
       </p>
 
     </div>
-  </div>
-</section>
 
-
-<!-- ABOUT -->
-
-<section class="intro" id="about">
-  <div class="container intro-grid">
-
-    <div>
-      <div class="section-label">WHY MOSHIMO NOTE</div>
-
-      <p class="intro-quote">
-        大切なのは、<br>
-        「もしもの準備」だけではありません。<br>
-        <em>自分の人生を整理すること。</em>
-      </p>
-    </div>
-
-    <div>
-      <p class="section-lead">
-        家族に伝えておきたいこと。
-        持っているもの、契約しているもの。
-        これまで歩いてきた人生。
-      </p>
-
-      <p class="section-lead">
-        頭の中では分かっていても、
-        いざというときに誰かへ伝えるのは簡単ではありません。
-      </p>
-
-      <p class="section-lead">
-        もしもノートなら、必要な情報を少しずつ入力しながら、
-        自分自身の人生を整理していくことができます。
-      </p>
+    <!-- イラスト（もしもノートのオリジナル。開いたノートと家族、木と丘） -->
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hv-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fbeff3"/>
+            <stop offset="1" stop-color="#fdfaf9"/>
+          </linearGradient>
+          <clipPath id="hv-clip"><rect width="480" height="380" rx="28"/></clipPath>
+        </defs>
+        <g clip-path="url(#hv-clip)">
+          <rect width="480" height="380" fill="url(#hv-sky)"/>
+          <!-- 雲 -->
+          <rect x="34" y="58" width="112" height="26" rx="13" fill="#fff" opacity=".6"/>
+          <rect x="196" y="34" width="78" height="20" rx="10" fill="#fff" opacity=".5"/>
+          <rect x="296" y="112" width="92" height="22" rx="11" fill="#fff" opacity=".45"/>
+          <!-- 太陽 -->
+          <circle cx="404" cy="70" r="34" fill="#fbe4ec" opacity=".6"/>
+          <circle cx="404" cy="70" r="21" fill="#d6497a" opacity=".22"/>
+          <!-- 鳥 -->
+          <path d="M150 124q6-6 12 0q6-6 12 0" stroke="#b9a7ae" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M248 92q4-4 8 0q4-4 8 0" stroke="#b9a7ae" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          <!-- 丘 -->
+          <path d="M0 296Q240 236 480 296V380H0Z" fill="#f6e4ea"/>
+          <path d="M0 328Q240 298 480 330V380H0Z" fill="#fbf3f5"/>
+          <!-- 左の木 -->
+          <rect x="76" y="222" width="9" height="74" rx="4.5" fill="#c9a99a"/>
+          <circle cx="80" cy="200" r="34" fill="#d6497a" fill-opacity=".2"/>
+          <circle cx="60" cy="216" r="22" fill="#d6497a" fill-opacity=".13"/>
+          <circle cx="102" cy="212" r="24" fill="#a83368" fill-opacity=".2"/>
+          <!-- 右の木 -->
+          <rect x="416" y="236" width="8" height="58" rx="4" fill="#c9a99a"/>
+          <circle cx="420" cy="220" r="27" fill="#d6497a" fill-opacity=".2"/>
+          <circle cx="438" cy="232" r="18" fill="#d6497a" fill-opacity=".13"/>
+          <!-- 芽 -->
+          <path d="M126 300v-16" stroke="#b39aa3" stroke-width="2" stroke-linecap="round"/>
+          <path d="M126 288q-12-2-14-12q12 0 14 12Z" fill="#d6497a" fill-opacity=".35"/>
+          <path d="M126 284q10-4 14-14q-12 2-14 14Z" fill="#a83368" fill-opacity=".35"/>
+          <!-- ノートの影 -->
+          <ellipse cx="220" cy="298" rx="88" ry="7" fill="#efd9e1" opacity=".7"/>
+          <!-- 開いたノート -->
+          <path d="M220 216Q186 200 144 204V284Q186 280 220 296Z" fill="#fffdf8" stroke="#d6cfc2" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M220 216Q254 200 296 204V284Q254 280 220 296Z" fill="#fffdf8" stroke="#d6cfc2" stroke-width="1.5" stroke-linejoin="round"/>
+          <!-- しおり -->
+          <path d="M266 203V232L271 226L276 232V202" fill="#d6497a" opacity=".55"/>
+          <!-- 左ページ：ロゴと線 -->
+          <rect x="160" y="222" width="28" height="28" rx="8" fill="#d6497a"/>
+          <use href="#brand-hourglass" x="164" y="226" width="20" height="20"/>
+          <path d="M160 262q22-1 46 3" stroke="#d6497a" stroke-opacity=".45" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M160 274q18-1 36 2" stroke="#ecdfe4" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <!-- 右ページ：線 -->
+          <path d="M232 224q14-5 28-6" stroke="#d6497a" stroke-opacity=".45" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M232 240q24-6 50-7" stroke="#ecdfe4" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M232 254q20-5 40-6" stroke="#ecdfe4" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M232 268q24-5 50-6" stroke="#ecdfe4" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <!-- 人物（大人と子ども） -->
+          <path d="M326 302V270a14 14 0 0 1 28 0V302Z" fill="#a83368" fill-opacity=".6"/>
+          <circle cx="340" cy="248" r="11" fill="#8b7363"/>
+          <path d="M364 302V282a9 9 0 0 1 18 0V302Z" fill="#d6497a" opacity=".4"/>
+          <circle cx="373" cy="266" r="8" fill="#8b7363"/>
+        </g>
+      </svg>
     </div>
 
   </div>
@@ -879,6 +1834,8 @@ footer{
     </h2>
 
     <p class="section-lead">
+      葬儀だけではありません。住まい、契約、保険、資産、
+      スマートフォンやネットのサービスまで。
       そのときになって初めて、家族が探さなければならない情報はたくさんあります。
     </p>
 
@@ -946,6 +1903,130 @@ footer{
 
     </div>
 
+    <div class="problem-close">
+      <p class="problem-close-title">
+        でも、その多くは<br>
+        <em>あなたにしか分からないこと</em>です。
+      </p>
+      <p>
+        どこと契約しているのか。どんな保険に入っているのか。
+        誰に、何を任せたいのか。<br>
+        だからこそ、元気なうちに整理しておくことが大切です。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="intro" id="about">
+  <div class="container intro-grid">
+
+    <div>
+      <div class="section-label">WHY MOSHIMO NOTE</div>
+
+      <p class="intro-quote">
+        大切なのは、<br>
+        「もしもの準備」だけではありません。<br>
+        <em>自分の人生を整理すること。</em>
+      </p>
+    </div>
+
+    <div>
+      <p class="section-lead">
+        家族に伝えておきたいこと。
+        持っているもの、契約しているもの。
+        これまで歩いてきた人生。
+      </p>
+
+      <p class="section-lead">
+        頭の中では分かっていても、
+        いざというときに誰かへ伝えるのは簡単ではありません。
+      </p>
+
+      <p class="section-lead">
+        もしもノートなら、必要な情報を少しずつ入力しながら、
+        自分自身の人生を整理していくことができます。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- WHY APP -->
+
+<section class="why">
+  <div class="container">
+
+    <div class="section-label">WHY APP</div>
+
+    <h2 class="section-title">
+      書いて終わり、ではなく。<br>
+      整理して、<em>管理しておく。</em>
+    </h2>
+
+    <p class="section-lead">
+      紙のエンディングノートは、書いた時点で止まってしまいがちです。
+      引っ越し、契約の見直し、家族の変化。
+      人生が変わるたびに見直せてこそ、もしものときに本当に役立つ情報になります。
+    </p>
+
+    <div class="compare">
+      <div class="compare-col compare-paper">
+        <div class="compare-head">紙に書いて残す</div>
+        <ul>
+          <li>書き直すたびに、消したり書き足したり</li>
+          <li>何をどこに書いたか、分からなくなりがち</li>
+          <li>情報があちこちに散らばりやすい</li>
+        </ul>
+      </div>
+      <div class="compare-col compare-app">
+        <div class="compare-head">もしもノートで管理する</div>
+        <ul>
+          <li>登録した内容は、後から何度でも編集・削除できる</li>
+          <li>項目ごとに整理されるので、探しやすい</li>
+          <li>ひとつのアプリに、まとめて管理できる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="merit-grid">
+
+      <div class="merit">
+        <div class="merit-num">01</div>
+        <h3>ひとつにまとめる</h3>
+        <p>連絡先、契約、保険、資産、デジタル情報。ばらばらになりがちな情報を、ひとつのアプリにまとめられます。</p>
+      </div>
+
+      <div class="merit">
+        <div class="merit-num">02</div>
+        <h3>項目ごとに整理する</h3>
+        <p>基本情報、資産・契約、家系図など、決まった項目に沿って入力。何を書けばいいか迷いません。</p>
+      </div>
+
+      <div class="merit">
+        <div class="merit-num">03</div>
+        <h3>いつでも更新できる</h3>
+        <p>登録した内容は、すべて後から編集・削除できます。分かるところから始められます。</p>
+      </div>
+
+      <div class="merit">
+        <div class="merit-num">04</div>
+        <h3>人生の変化に合わせて見直す</h3>
+        <p>引っ越し、契約の見直し、家族の変化。そのたびに、内容を最新の状態に保てます。</p>
+      </div>
+
+      <div class="merit">
+        <div class="merit-num">05</div>
+        <h3>手元にも残しておける</h3>
+        <p>登録した内容をPDF・エクセルのファイルとして書き出し、保存しておくこともできます（有料プラン）。</p>
+      </div>
+
+    </div>
+
   </div>
 </section>
 
@@ -958,13 +2039,16 @@ footer{
     <div class="section-label">MOSHIMO NOTE APP</div>
 
     <h2 class="section-title">
-      書きながら、<br>
-      自分の人生を整理する。
+      そこで、<br>
+      <em>「もしもノート」。</em>
     </h2>
 
+    <p class="app-catch">書きながら、自分の人生を整理する。</p>
+
     <p class="section-lead">
-      もしもノートは、人生に関するさまざまな情報を
-      一つずつ整理していくためのアプリです。
+      もしもノートは、単なるエンディングノートではありません。
+      人生に関するさまざまな情報や、もしものときに必要になる情報を、
+      項目ごとに整理して、管理しておくためのアプリです。
     </p>
 
     <div class="app-layout">
@@ -973,23 +2057,27 @@ footer{
 
         <div class="app-feature">
           <h3>基本情報</h3>
-          <p>自分自身の基本情報や、必要な連絡先を整理。</p>
+          <p>自分自身の基本情報や、必要な連絡先を整理。緊急連絡先やご家族の連絡先、葬儀・埋葬についての希望も。</p>
         </div>
 
         <div class="app-feature">
           <h3>資産・契約</h3>
-          <p>不動産、金融口座、保険、契約、デジタル資産など。</p>
+          <p>不動産、金融口座、保険、契約、デジタル資産など。電気・ガス・携帯電話などの契約や、車・貴金属などの所有物も。</p>
         </div>
 
         <div class="app-feature">
-          <h3>葬儀の希望</h3>
-          <p>自分らしい葬儀や、伝えておきたい希望を整理。</p>
+          <h3>家系図・人生年表</h3>
+          <p>ご家族のつながりを図で残す「もしも家系図」と、人生の出来事をふり返る「人生年表」。</p>
         </div>
 
         <div class="app-feature">
-          <h3>もしものとき</h3>
-          <p>家族に伝えておきたいことをまとめておく。</p>
+          <h3>希望・もしものとき</h3>
+          <p>自分らしい葬儀や、伝えておきたい希望を整理。ペットのことや、家族に伝えておきたいことをまとめておく。</p>
         </div>
+
+        <p class="app-note">
+          ※口座番号・暗証番号・各種サービスのログインパスワードなど、特に機微性の高い情報は、設計上保存しません。
+        </p>
 
       </div>
 
@@ -998,6 +2086,7 @@ footer{
         <div class="phone">
 
           <div class="phone-top">
+            <span class="logo-mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><use href="#brand-hourglass"/></svg></span>
             もしもノート
           </div>
 
@@ -1032,11 +2121,12 @@ footer{
     </div>
 
     <div class="app-cta" id="start">
+      <p class="app-cta-title">まずは、基本情報の登録から。</p>
       <p>
         もしもノートは現在開発中です。
       </p>
 
-      <a href="#coming-soon" class="btn btn-primary">
+      <a href="https://shigo-jimu-platform.vercel.app/" class="btn btn-primary">
         もしもノートを使ってみる
       </a>
     </div>
@@ -1067,21 +2157,30 @@ footer{
           一度にすべて完成させる必要はありません。
           思いついたときに、少しずつ。
         </p>
-
-        <a href="#start" class="btn btn-outline" style="margin-top:25px;">
-          アプリを使ってみる
-        </a>
       </div>
 
       <div class="feature-art">
 
-        <div class="art-inner">
-          <div class="art-line short"></div>
-          <div class="art-line accent"></div>
-          <div class="art-line"></div>
-          <div class="art-line short"></div>
-          <div class="art-line"></div>
-          <div class="art-line accent"></div>
+        <div class="art-inner app-screen" aria-hidden="true">
+          <div class="app-bar">
+            <span class="logo-mark"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><use href="#brand-hourglass"/></svg></span>
+            <div class="bar-stack">
+              <div class="art-line short"></div>
+              <div class="art-line thin"></div>
+            </div>
+          </div>
+          <div class="art-line cat"></div>
+          <div class="mini-grid">
+            <div class="mini-card"><div class="art-line accent"></div><div class="art-line short"></div></div>
+            <div class="mini-card"><div class="art-line accent"></div><div class="art-line"></div></div>
+            <div class="mini-card"><div class="art-line accent"></div><div class="art-line short"></div></div>
+          </div>
+          <div class="art-line cat"></div>
+          <div class="mini-grid">
+            <div class="mini-card"><div class="art-line accent"></div><div class="art-line"></div></div>
+            <div class="mini-card"><div class="art-line accent"></div><div class="art-line short"></div></div>
+            <div class="mini-card"><div class="art-line accent"></div><div class="art-line"></div></div>
+          </div>
         </div>
 
       </div>
@@ -1109,31 +2208,27 @@ footer{
           誰に託したいのか。
         </p>
 
-        <a href="#start" class="btn btn-outline" style="margin-top:25px;">
-          家族のことを整理してみる
-        </a>
-
       </div>
 
       <div class="feature-art">
 
-        <div class="art-inner">
+        <div class="art-inner family-art">
 
-          <div style="text-align:center;font-family:Georgia,serif;font-size:20px;">
+          <div class="art-title" style="text-align:center;">
             MY FAMILY
           </div>
 
-          <div style="margin-top:35px;text-align:center;">
-            ○
-          </div>
-
-          <div style="display:flex;justify-content:space-around;margin-top:25px;">
-            <span>○</span>
-            <span>○</span>
+          <div class="tree-row" style="margin-top:35px;text-align:center;">
             <span>○</span>
           </div>
 
-          <div style="display:flex;justify-content:space-around;margin-top:25px;">
+          <div class="tree-row" style="display:flex;justify-content:space-around;margin-top:25px;">
+            <span>○</span>
+            <span>○</span>
+            <span>○</span>
+          </div>
+
+          <div class="tree-row" style="display:flex;justify-content:space-around;margin-top:25px;">
             <span>○</span>
             <span>○</span>
           </div>
@@ -1164,21 +2259,17 @@ footer{
           これから何を大切にしたいのかを考えるきっかけにもなります。
         </p>
 
-        <a href="#start" class="btn btn-outline" style="margin-top:25px;">
-          自分の人生を整理してみる
-        </a>
-
       </div>
 
       <div class="feature-art">
 
-        <div class="art-inner">
+        <div class="art-inner life-art">
 
-          <div style="font-family:Georgia,serif;font-size:20px;">
+          <div class="art-title">
             MY LIFE
           </div>
 
-          <div style="margin-top:25px;">
+          <div class="timeline" style="margin-top:25px;">
             <div class="art-line accent"></div>
             <div class="art-line short"></div>
             <div class="art-line"></div>
@@ -1190,6 +2281,14 @@ footer{
 
       </div>
 
+    </div>
+
+    <div class="cta-band">
+      <p class="cta-band-title">整理は、今日から少しずつ。</p>
+      <p>思いついたときに、分かるところから。</p>
+      <a href="https://shigo-jimu-platform.vercel.app/" class="btn btn-primary">
+        もしもノートを使ってみる
+      </a>
     </div>
 
   </div>
@@ -1213,6 +2312,11 @@ footer{
     <p class="section-lead">
       人生を整理することは、未来を悲観することではありません。
       これまでを振り返り、これからを考える時間です。
+    </p>
+
+    <p class="section-lead">
+      今の自分を整理して、これからを安心して生きるために。
+      そして、もしものときに大切な人が困らないように。
     </p>
 
     <div class="family-grid">
@@ -1291,23 +2395,23 @@ footer{
         <h3>整理する</h3>
         <p>
           資産や契約、希望などを
-          少しずつ整理していきます。
+          項目ごとに少しずつ整理していきます。
         </p>
       </div>
 
       <div class="step">
         <div class="step-number">03</div>
-        <h3>残しておく</h3>
+        <h3>見直して、残しておく</h3>
         <p>
-          整理した情報を、
-          もしものときに役立つ形で残します。
+          人生の変化に合わせて更新しながら、
+          整理した情報を、もしものときに役立つ形で残します。
         </p>
       </div>
 
     </div>
 
     <div style="margin-top:60px;">
-      <a href="#start" class="btn btn-primary">
+      <a href="https://shigo-jimu-platform.vercel.app/" class="btn btn-primary">
         もしもノートを使ってみる
       </a>
     </div>
@@ -1330,6 +2434,31 @@ footer{
     </h2>
 
     <div class="faq-list">
+
+      <details>
+        <summary>紙のエンディングノートとの違いは何ですか？</summary>
+        <p>
+          もしもノートは、書いて終わりではなく、項目ごとに整理した情報を
+          後から何度でも更新・見直しできるアプリです。
+          人生の変化に合わせて、内容を最新の状態に保てます。
+        </p>
+      </details>
+
+      <details>
+        <summary>どんな情報を整理・管理できますか？</summary>
+        <p>
+          基本情報（プロフィール・連絡先・葬儀の希望）、資産・契約（不動産・金融口座・保険・契約・デジタル資産・その他所有物）、
+          もしも家系図・人生年表、ペット、希望メモなどを整理できます。
+        </p>
+      </details>
+
+      <details>
+        <summary>口座番号やパスワードも登録するのですか？</summary>
+        <p>
+          いいえ。口座番号・暗証番号・各種サービスのログインパスワードなど、
+          特に機微性の高い情報は、設計上収集・保存しません。
+        </p>
+      </details>
 
       <details>
         <summary>いつから始めればいいですか？</summary>
@@ -1386,10 +2515,11 @@ footer{
 
     <p>
       もしものためだけではなく、
-      これまでを振り返り、これからを考えるために。
+      これまでを振り返り、これからを考えるために。<br>
+      まずは、もしもノートで整理をはじめてみませんか。
     </p>
 
-    <a href="#start" class="btn btn-primary">
+    <a href="https://shigo-jimu-platform.vercel.app/" class="btn btn-primary">
       もしもノートを使ってみる
     </a>
 
@@ -1399,6 +2529,18 @@ footer{
 
   </div>
 
+</section>
+
+<!-- VIDEO -->
+
+<section class="video-section" id="video">
+  <div class="container">
+  <video
+    src="moshimo.mp4"
+    controls
+    playsinline>
+  </video>
+  </div>
 </section>
 
 </main>
@@ -1413,7 +2555,7 @@ footer{
     <div class="footer-top">
 
       <div>
-        <div class="footer-logo">もしもノート</div>
+        <div class="footer-logo"><span class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><use href="#brand-hourglass"/></svg></span>もしもノート</div>
         <div style="font-size:11px;margin-top:7px;">
           人生整理・終活アプリ
         </div>
@@ -1422,6 +2564,7 @@ footer{
       <div class="footer-links">
         <a href="privacy.html">プライバシーポリシー</a>
         <a href="terms.html">利用規約</a>
+        <a href="tokusho.html">特定商取引法に基づく表記</a>
         <a href="mailto:kusukiseiko@gmail.com">お問い合わせ</a>
       </div>
 
@@ -1433,17 +2576,6 @@ footer{
 
   </div>
 </footer>
-       </div>
-</div>
-
-
 
 </body>
-</html><section style="width: 100%; margin: 60px 0; padding: 0;">
-  <video
-    src="moshimo.mp4"
-    controls
-    playsinline
-    style="width: 100%; height: auto; border-radius: 18px; display: block;">
-  </video>
-</section>
+</html>
